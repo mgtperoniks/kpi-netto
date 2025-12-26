@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\ProductionLog;
 
-// MASTER MIRROR (READ-ONLY)
+// MASTER MIRROR (READ ONLY)
 use App\Models\MdOperator;
 use App\Models\MdMachine;
 use App\Models\MdItem;
@@ -13,34 +13,31 @@ use App\Models\MdItem;
 class ProductionController extends Controller
 {
     /**
-     * Form input produksi
-     * Autofill dari master data mirror (md_*)
+     * =================================
+     * FORM INPUT PRODUKSI
+     * =================================
      */
     public function create()
     {
         return view('production.input', [
-            'operators' => MdOperator::where('active', 1)
-                ->orderBy('name')
-                ->get(),
-
-            'machines' => MdMachine::where('active', 1)
-                ->orderBy('name')
-                ->get(),
-
-            'items' => MdItem::where('active', 1)
-                ->orderBy('name')
-                ->get(),
+            'operators' => MdOperator::active()->orderBy('name')->get(),
+            'machines'  => MdMachine::active()->orderBy('name')->get(),
+            'items'     => MdItem::active()
+                ->orderBy('code')
+                ->get(['code', 'name', 'cycle_time_sec']),
         ]);
     }
 
     /**
-     * Simpan data produksi
-     * Semua perhitungan KRITIS dilakukan di server
+     * =================================
+     * SIMPAN DATA PRODUKSI (AMAN)
+     * =================================
      */
     public function store(Request $request)
     {
         /**
-         * 1️⃣ VALIDASI WAJIB (SERVER AUTHORITY)
+         * 1. VALIDASI INPUT
+         * Server adalah source of truth
          */
         $validated = $request->validate([
             'production_date' => 'required|date',
@@ -48,76 +45,91 @@ class ProductionController extends Controller
 
             'operator_code'   => 'required|string',
             'machine_code'    => 'required|string',
-            'item_code'       => 'required|string',
 
-            'time_start'      => 'required',
-            'time_end'        => 'required|after:time_start',
+            // VALIDASI KE MASTER MIRROR
+            'item_code'       => 'required|exists:md_items_mirror,code',
 
-            'actual_qty'      => 'required|numeric|min:0',
+            'time_start'      => 'required|date_format:H:i',
+            'time_end'        => 'required|date_format:H:i|after:time_start',
+
+            'actual_qty'      => 'required|integer|min:0',
         ]);
 
         /**
-         * 2️⃣ AMBIL MASTER ITEM (FAIL FAST)
-         * Master mirror = single source of truth
+         * 2. AMBIL MASTER ITEM (FAIL FAST)
+         * Cycle time WAJIB dari server
          */
-        $item = MdItem::where('code', $validated['item_code'])
-            ->where('active', 1)
+        $item = MdItem::active()
+            ->where('code', $validated['item_code'])
             ->firstOrFail();
 
         /**
-         * 3️⃣ HITUNG JAM KERJA (JAM DESIMAL)
-         * Asumsi format 24 jam (disepakati)
+         * 3. HITUNG DURASI KERJA
          */
         $workSeconds = strtotime($validated['time_end'])
             - strtotime($validated['time_start']);
 
-        $workHours = $workSeconds / 3600;
+        if ($workSeconds <= 0) {
+            return back()
+                ->withErrors(['time_end' => 'Jam selesai harus lebih besar dari jam mulai'])
+                ->withInput();
+        }
+
+        $workHours = round($workSeconds / 3600, 2);
 
         /**
-         * 4️⃣ HITUNG TARGET BERDASARKAN CYCLE TIME
-         * FULL SERVER-SIDE
+         * 4. HITUNG TARGET PRODUKSI
          */
         $cycleTimeSec = (int) $item->cycle_time_sec;
 
         $targetQty = $cycleTimeSec > 0
-            ? floor($workSeconds / $cycleTimeSec)
+            ? intdiv($workSeconds, $cycleTimeSec)
             : 0;
 
         /**
-         * 5️⃣ HITUNG ACHIEVEMENT
+         * 5. HITUNG ACHIEVEMENT
          */
         $actualQty = (int) $validated['actual_qty'];
 
-        $achievement = $targetQty > 0
+        $achievementPercent = $targetQty > 0
             ? round(($actualQty / $targetQty) * 100, 2)
             : 0;
 
         /**
-         * 6️⃣ SIMPAN KE FACT TABLE (HISTORICAL SAFE)
+         * 6. SIMPAN KE FACT TABLE
+         * Snapshot data (NO FK)
          */
         ProductionLog::create([
             'production_date'     => $validated['production_date'],
             'shift'               => $validated['shift'],
 
-            // Snapshot kode (NO FK)
-            'operator_code'       => strtolower(trim($validated['operator_code'])),
-            'machine_code'        => strtolower(trim($validated['machine_code'])),
-            'item_code'           => strtolower(trim($validated['item_code'])),
+            'operator_code'       => $this->normalizeCode($validated['operator_code']),
+            'machine_code'        => $this->normalizeCode($validated['machine_code']),
+            'item_code'           => $this->normalizeCode($validated['item_code']),
 
             'time_start'          => $validated['time_start'],
             'time_end'            => $validated['time_end'],
             'work_hours'          => $workHours,
 
-            // Snapshot nilai kritis (WAJIB)
+            // nilai kritis (snapshot)
             'cycle_time_used_sec' => $cycleTimeSec,
-
             'target_qty'          => $targetQty,
             'actual_qty'          => $actualQty,
-            'achievement_percent' => $achievement,
+            'achievement_percent' => $achievementPercent,
         ]);
 
         return redirect()
             ->back()
             ->with('success', 'Data produksi berhasil disimpan');
+    }
+
+    /**
+     * =================================
+     * HELPER NORMALISASI KODE
+     * =================================
+     */
+    private function normalizeCode(string $value): string
+    {
+        return strtolower(trim($value));
     }
 }

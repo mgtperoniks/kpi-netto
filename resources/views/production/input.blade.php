@@ -5,145 +5,135 @@
 @section('content')
 <x-card title="Input Hasil Operator Bubut">
 
-    {{-- FEEDBACK KE USER --}}
+    {{-- FEEDBACK USER --}}
     @if ($errors->any())
-        <div class="bg-red-100 border border-red-400 text-red-700 p-3 rounded mb-4">
+        <div class="alert alert-danger mb-4">
             {{ $errors->first() }}
         </div>
     @endif
 
     @if (session('success'))
-        <div class="bg-green-100 border border-green-400 text-green-700 p-3 rounded mb-4">
+        <div class="alert alert-success mb-4">
             {{ session('success') }}
         </div>
     @endif
 
-    <form method="POST" action="{{ url('/produksi/store') }}">
+    <form method="POST" action="{{ route('produksi.store') }}">
         @csrf
 
         <div class="form-grid">
 
-            {{-- Tanggal Produksi --}}
+            {{-- TANGGAL PRODUKSI --}}
             <div class="form-group">
-                <label>Tanggal Produksi</label>
-                <input
-                    type="date"
-                    name="production_date"
-                    value="{{ old('production_date', date('Y-m-d')) }}"
-                    required
-                >
+                <label for="production_date">Tanggal Produksi</label>
+                <input type="date"
+                       id="production_date"
+                       name="production_date"
+                       value="{{ old('production_date', now()->toDateString()) }}"
+                       required>
             </div>
 
-            {{-- Shift --}}
+            {{-- SHIFT --}}
             <div class="form-group">
-                <label>Shift</label>
-                <select name="shift" required>
-                    <option value="A" {{ old('shift') == 'A' ? 'selected' : '' }}>Shift A</option>
-                    <option value="B" {{ old('shift') == 'B' ? 'selected' : '' }}>Shift B</option>
-                    <option value="C" {{ old('shift') == 'C' ? 'selected' : '' }}>Shift C</option>
+                <label for="shift">Shift</label>
+                <select id="shift" name="shift" required>
+                    @foreach (['A','B','C'] as $shift)
+                        <option value="{{ $shift }}"
+                            {{ old('shift') === $shift ? 'selected' : '' }}>
+                            Shift {{ $shift }}
+                        </option>
+                    @endforeach
                 </select>
             </div>
 
-            {{-- Operator --}}
+            {{-- OPERATOR --}}
             <div class="form-group">
-                <label>Operator</label>
-                <select name="operator_code" required>
+                <label for="operator_code">Operator</label>
+                <select id="operator_code" name="operator_code" required>
                     <option value="">-- Pilih Operator --</option>
-                    @foreach ($operators as $op)
-                        <option
-                            value="{{ $op->code }}"
-                            {{ old('operator_code') == $op->code ? 'selected' : '' }}>
-                            {{ $op->name }} ({{ $op->code }})
+                    @foreach ($operators as $operator)
+                        <option value="{{ $operator->code }}"
+                            {{ old('operator_code') === $operator->code ? 'selected' : '' }}>
+                            {{ $operator->name }} ({{ $operator->code }})
                         </option>
                     @endforeach
                 </select>
             </div>
 
-            {{-- Mesin --}}
+            {{-- MESIN --}}
             <div class="form-group">
-                <label>Mesin</label>
-                <select name="machine_code" required>
+                <label for="machine_code">Mesin</label>
+                <select id="machine_code" name="machine_code" required>
                     <option value="">-- Pilih Mesin --</option>
-                    @foreach ($machines as $mc)
-                        <option
-                            value="{{ $mc->code }}"
-                            {{ old('machine_code') == $mc->code ? 'selected' : '' }}>
-                            {{ $mc->name }} ({{ $mc->code }})
+                    @foreach ($machines as $machine)
+                        <option value="{{ $machine->code }}"
+                            {{ old('machine_code') === $machine->code ? 'selected' : '' }}>
+                            {{ $machine->name }} ({{ $machine->code }})
                         </option>
                     @endforeach
                 </select>
             </div>
 
-            {{-- Item --}}
+            {{-- ITEM --}}
             <div class="form-group">
-                <label>Item</label>
-                <select name="item_code" id="item_select" required>
+                <label for="item_code">Item</label>
+                <select id="item_code" name="item_code" required>
                     <option value="">-- Pilih Item --</option>
-                    @foreach ($items as $it)
-                        <option
-                            value="{{ $it->code }}"
-                            data-cycle="{{ $it->cycle_time_sec }}"
-                            {{ old('item_code') == $it->code ? 'selected' : '' }}>
-                            {{ $it->name }}
+                    @foreach ($items as $item)
+                        <option value="{{ $item->code }}"
+                                data-cycle="{{ $item->cycle_time_sec }}"
+                                {{ old('item_code') === $item->code ? 'selected' : '' }}>
+                            {{ $item->code }} — {{ $item->name }}
                         </option>
                     @endforeach
                 </select>
             </div>
 
-            {{-- Cycle Time Preview --}}
+            {{-- PREVIEW CYCLE TIME --}}
             <div class="form-group">
                 <label>Cycle Time (detik)</label>
-                <input
-                    type="number"
-                    id="preview_cycle_time"
-                    readonly
-                >
+                <input type="number"
+                       id="cycle_time_preview"
+                       readonly>
             </div>
 
-            {{-- Jam Mulai --}}
+            {{-- JAM MULAI --}}
             <div class="form-group">
-                <label>Jam Mulai</label>
-                <input
-                    type="time"
-                    name="time_start"
-                    id="time_start"
-                    value="{{ old('time_start') }}"
-                    required
-                >
+                <label for="time_start">Jam Mulai</label>
+                <input type="time"
+                       id="time_start"
+                       name="time_start"
+                       value="{{ old('time_start') }}"
+                       required>
             </div>
 
-            {{-- Jam Selesai --}}
+            {{-- JAM SELESAI --}}
             <div class="form-group">
-                <label>Jam Selesai</label>
-                <input
-                    type="time"
-                    name="time_end"
-                    id="time_end"
-                    value="{{ old('time_end') }}"
-                    required
-                >
+                <label for="time_end">Jam Selesai</label>
+                <input type="time"
+                       id="time_end"
+                       name="time_end"
+                       value="{{ old('time_end') }}"
+                       required>
             </div>
 
-            {{-- Qty Aktual --}}
+            {{-- QTY AKTUAL --}}
             <div class="form-group">
-                <label>Qty Aktual</label>
-                <input
-                    type="number"
-                    name="actual_qty"
-                    min="0"
-                    value="{{ old('actual_qty') }}"
-                    required
-                >
+                <label for="actual_qty">Qty Aktual</label>
+                <input type="number"
+                       id="actual_qty"
+                       name="actual_qty"
+                       min="0"
+                       value="{{ old('actual_qty') }}"
+                       required>
             </div>
 
-            {{-- Target Preview --}}
+            {{-- PREVIEW TARGET --}}
             <div class="form-group">
                 <label>Target (Preview)</label>
-                <input
-                    type="number"
-                    id="preview_target"
-                    readonly
-                >
+                <input type="number"
+                       id="target_preview"
+                       readonly>
             </div>
 
         </div>
@@ -153,51 +143,54 @@
                 Simpan Data Produksi
             </x-button>
         </div>
-
     </form>
 
 </x-card>
 
-{{-- JS Ringan: Preview Cycle Time & Target --}}
+{{-- ===============================
+     JS PREVIEW (NON KRITIS)
+     =============================== --}}
 <script>
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', () => {
 
-    const itemSelect = document.getElementById('item_select');
-    const startInput = document.getElementById('time_start');
-    const endInput   = document.getElementById('time_end');
+    const itemSelect   = document.getElementById('item_code');
+    const timeStart    = document.getElementById('time_start');
+    const timeEnd      = document.getElementById('time_end');
 
-    const cyclePreview  = document.getElementById('preview_cycle_time');
-    const targetPreview = document.getElementById('preview_target');
+    const cyclePreview = document.getElementById('cycle_time_preview');
+    const targetPrev   = document.getElementById('target_preview');
 
-    function calculatePreview() {
+    function updatePreview() {
         const option = itemSelect.options[itemSelect.selectedIndex];
-        const cycle  = option?.dataset?.cycle;
+        const cycle  = Number(option?.dataset?.cycle || 0);
 
-        if (!cycle || !startInput.value || !endInput.value) {
-            cyclePreview.value  = '';
-            targetPreview.value = '';
+        if (!cycle) {
+            cyclePreview.value = '';
+            targetPrev.value   = '';
             return;
         }
 
         cyclePreview.value = cycle;
 
-        const start = new Date(`1970-01-01T${startInput.value}:00`);
-        const end   = new Date(`1970-01-01T${endInput.value}:00`);
-        let seconds = (end - start) / 1000;
-
-        if (seconds <= 0) {
-            targetPreview.value = '';
+        if (!timeStart.value || !timeEnd.value) {
+            targetPrev.value = '';
             return;
         }
 
-        targetPreview.value = Math.floor(seconds / cycle);
+        const start = new Date(`1970-01-01T${timeStart.value}:00`);
+        const end   = new Date(`1970-01-01T${timeEnd.value}:00`);
+        const diff  = (end - start) / 1000;
+
+        targetPrev.value = diff > 0
+            ? Math.floor(diff / cycle)
+            : '';
     }
 
-    itemSelect.addEventListener('change', calculatePreview);
-    startInput.addEventListener('change', calculatePreview);
-    endInput.addEventListener('change', calculatePreview);
+    itemSelect.addEventListener('change', updatePreview);
+    timeStart.addEventListener('change', updatePreview);
+    timeEnd.addEventListener('change', updatePreview);
 
-    calculatePreview();
+    updatePreview();
 });
 </script>
 @endsection

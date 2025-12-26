@@ -3,92 +3,85 @@
 @section('title', 'Input Downtime')
 
 @section('content')
-<x-card title="Input Downtime">
+<x-card title="Input Downtime Produksi">
 
     {{-- FEEDBACK --}}
     @if ($errors->any())
-        <div class="bg-red-100 border border-red-400 text-red-700 p-3 rounded mb-4">
+        <div class="alert alert-danger mb-4">
             {{ $errors->first() }}
         </div>
     @endif
 
     @if (session('success'))
-        <div class="bg-green-100 border border-green-400 text-green-700 p-3 rounded mb-4">
+        <div class="alert alert-success mb-4">
             {{ session('success') }}
         </div>
     @endif
 
-    <form method="POST" action="{{ url('/downtime/store') }}">
+    <form method="POST" action="{{ route('downtime.store') }}">
         @csrf
 
         <div class="form-grid">
 
-            {{-- Tanggal Downtime --}}
+            {{-- TANGGAL DOWNTIME --}}
             <div class="form-group">
-                <label>Tanggal</label>
-                <input
-                    type="date"
-                    name="downtime_date"
-                    value="{{ old('downtime_date', date('Y-m-d')) }}"
-                    required
-                >
+                <label for="downtime_date">Tanggal Downtime</label>
+                <input type="date"
+                       id="downtime_date"
+                       name="downtime_date"
+                       value="{{ old('downtime_date', now()->toDateString()) }}"
+                       required>
             </div>
 
-            {{-- Mesin --}}
+            {{-- OPERATOR --}}
             <div class="form-group">
-                <label>Mesin</label>
-                <select name="machine_code" required>
-                    <option value="">-- Pilih Mesin --</option>
-                    @foreach ($machines as $mc)
-                        <option
-                            value="{{ $mc->code }}"
-                            {{ old('machine_code') == $mc->code ? 'selected' : '' }}>
-                            {{ $mc->name }} ({{ $mc->code }})
+                <label for="operator_code">Operator</label>
+                <select id="operator_code"
+                        name="operator_code"
+                        required>
+                    <option value="">-- Pilih Operator --</option>
+                    @foreach ($operators as $operator)
+                        <option value="{{ $operator->code }}"
+                            {{ old('operator_code') === $operator->code ? 'selected' : '' }}>
+                            {{ $operator->code }} — {{ $operator->name }}
                         </option>
                     @endforeach
                 </select>
             </div>
 
-            {{-- Jam Mulai --}}
+            {{-- MESIN --}}
             <div class="form-group">
-                <label>Jam Mulai</label>
-                <input
-                    type="time"
-                    name="time_start"
-                    value="{{ old('time_start') }}"
-                    required
-                >
+                <label for="machine_code">Mesin</label>
+                <select id="machine_code"
+                        name="machine_code"
+                        required>
+                    <option value="">-- Pilih Mesin --</option>
+                    @foreach ($machines as $machine)
+                        <option value="{{ $machine->code }}"
+                            {{ old('machine_code') === $machine->code ? 'selected' : '' }}>
+                            {{ $machine->code }}
+                        </option>
+                    @endforeach
+                </select>
             </div>
 
-            {{-- Jam Selesai --}}
+            {{-- DURASI DOWNTIME (MENIT) --}}
             <div class="form-group">
-                <label>Jam Selesai</label>
-                <input
-                    type="time"
-                    name="time_end"
-                    value="{{ old('time_end') }}"
-                    required
-                >
+                <label for="duration_minutes">Durasi Downtime (Menit)</label>
+                <input type="number"
+                       id="duration_minutes"
+                       name="duration_minutes"
+                       min="1"
+                       value="{{ old('duration_minutes') }}"
+                       required>
             </div>
 
-            {{-- Alasan Downtime --}}
-            <div class="form-group form-span-3">
-                <label>Alasan Downtime</label>
-                <input
-                    type="text"
-                    name="reason"
-                    value="{{ old('reason') }}"
-                    required
-                >
-            </div>
-
-            {{-- Catatan --}}
-            <div class="form-group form-span-4">
-                <label>Catatan</label>
-                <textarea
-                    name="note"
-                    rows="3"
-                >{{ old('note') }}</textarea>
+            {{-- CATATAN --}}
+            <div class="form-group form-span-2">
+                <label for="note">Keterangan</label>
+                <textarea id="note"
+                          name="note"
+                          rows="3">{{ old('note') }}</textarea>
             </div>
 
         </div>
@@ -98,7 +91,6 @@
                 Simpan Downtime
             </x-button>
         </div>
-
     </form>
 
 </x-card>

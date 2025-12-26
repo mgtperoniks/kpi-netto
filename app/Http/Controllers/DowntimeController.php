@@ -3,50 +3,76 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\DowntimeLog;
+use Illuminate\Support\Facades\DB;
+
+// MASTER MIRROR
+use App\Models\MdOperator;
 use App\Models\MdMachine;
 
 class DowntimeController extends Controller
 {
     /**
-     * Form input downtime
+     * ===============================
+     * FORM INPUT DOWNTIME
+     * ===============================
      */
     public function create()
     {
         return view('downtime.input', [
-            'machines' => MdMachine::where('active', 1)
-                ->orderBy('name')
+            'operators' => MdOperator::active()
+                ->orderBy('code')
+                ->get(),
+
+            'machines'  => MdMachine::active()
+                ->orderBy('code')
                 ->get(),
         ]);
     }
 
     /**
-     * Simpan downtime
+     * ===============================
+     * SIMPAN DOWNTIME (VERSI SEDERHANA)
+     * ===============================
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'downtime_date' => 'required|date',
-            'machine_code'  => 'required',
-            'time_start'    => 'required',
-            'time_end'      => 'required|after:time_start',
-            'reason'        => 'required',
+        /**
+         * 1. VALIDASI INPUT
+         */
+        $validated = $request->validate([
+            'downtime_date'     => 'required|date',
+            'operator_code'     => 'required|exists:md_operators,code',
+            'machine_code'      => 'required|exists:md_machines,code',
+            'duration_minutes'  => 'required|integer|min:1',
+            'note'              => 'nullable|string|max:255',
         ]);
 
-        $start = strtotime($request->time_start);
-        $end   = strtotime($request->time_end);
-
-        DowntimeLog::create([
-            'downtime_date'   => $request->downtime_date,
-            'machine_code'    => $request->machine_code,
-            'time_start'      => $request->time_start,
-            'time_end'        => $request->time_end,
-            'duration_minutes' => ($end - $start) / 60,
-            'note'            => $request->reason . ' - ' . ($request->note ?? ''),
+        /**
+         * 2. SIMPAN KE FACT TABLE
+         * Snapshot (NO FK)
+         */
+        DB::table('downtime_logs')->insert([
+            'downtime_date'    => $validated['downtime_date'],
+            'operator_code'    => $this->normalizeCode($validated['operator_code']),
+            'machine_code'     => $this->normalizeCode($validated['machine_code']),
+            'duration_minutes' => $validated['duration_minutes'],
+            'note'             => $validated['note'],
+            'created_at'       => now(),
+            'updated_at'       => now(),
         ]);
 
         return redirect()
-            ->back()
+            ->route('downtime.input')
             ->with('success', 'Downtime berhasil disimpan');
+    }
+
+    /**
+     * ===============================
+     * HELPER NORMALISASI KODE
+     * ===============================
+     */
+    private function normalizeCode(string $value): string
+    {
+        return strtolower(trim($value));
     }
 }

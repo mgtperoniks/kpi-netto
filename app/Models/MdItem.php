@@ -20,4 +20,9 @@ class MdItem extends Model
         'cycle_time_sec',
         'active',
     ];
+    public function scopeActive($query)
+{
+    return $query->where('active', 1);
+}
+
 }

@@ -32,6 +32,7 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
 |--------------------------------------------------------------------------
 */
 Route::prefix('produksi')->name('produksi.')->group(function () {
+
     Route::get('/input', [ProductionController::class, 'create'])
         ->name('input');
 
@@ -45,6 +46,7 @@ Route::prefix('produksi')->name('produksi.')->group(function () {
 |--------------------------------------------------------------------------
 */
 Route::prefix('reject')->name('reject.')->group(function () {
+
     Route::get('/', [RejectController::class, 'index'])
         ->name('index');
 
@@ -57,10 +59,11 @@ Route::prefix('reject')->name('reject.')->group(function () {
 
 /*
 |--------------------------------------------------------------------------
-| Downtime (Input)
+| Downtime
 |--------------------------------------------------------------------------
 */
 Route::prefix('downtime')->name('downtime.')->group(function () {
+
     Route::get('/input', [DowntimeController::class, 'create'])
         ->name('input');
 
@@ -79,6 +82,7 @@ Route::prefix('downtime')->name('downtime.')->group(function () {
 Route::prefix('tracking')->name('tracking.')->group(function () {
 
     Route::prefix('operator')->name('operator.')->group(function () {
+
         Route::get('/', [TrackingOperatorController::class, 'index'])
             ->name('index');
 
@@ -87,6 +91,7 @@ Route::prefix('tracking')->name('tracking.')->group(function () {
     });
 
     Route::prefix('mesin')->name('mesin.')->group(function () {
+
         Route::get('/', [TrackingMachineController::class, 'index'])
             ->name('index');
 
@@ -101,6 +106,7 @@ Route::prefix('tracking')->name('tracking.')->group(function () {
 |--------------------------------------------------------------------------
 */
 Route::prefix('export')->name('export.')->group(function () {
+
     Route::get('/operator/{date}', [ExportController::class, 'operatorKpi'])
         ->name('operator');
 
