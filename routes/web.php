@@ -72,6 +72,9 @@ Route::prefix('downtime')->name('downtime.')->group(function () {
 
     Route::get('/', [TrackingDowntimeController::class, 'index'])
         ->name('tracking');
+
+    Route::get('/tracking/pdf/{date}', [TrackingDowntimeController::class, 'exportPdf'])
+        ->name('tracking.pdf');
 });
 
 /*
@@ -86,6 +89,9 @@ Route::prefix('tracking')->name('tracking.')->group(function () {
         Route::get('/', [TrackingOperatorController::class, 'index'])
             ->name('index');
 
+        Route::get('/pdf/{date}', [TrackingOperatorController::class, 'exportPdf'])
+            ->name('pdf');
+
         Route::get('/{operator}/{date}', [TrackingOperatorController::class, 'show'])
             ->name('show');
     });
@@ -94,6 +100,9 @@ Route::prefix('tracking')->name('tracking.')->group(function () {
 
         Route::get('/', [TrackingMachineController::class, 'index'])
             ->name('index');
+
+        Route::get('/pdf/{date}', [TrackingMachineController::class, 'exportPdf'])
+            ->name('pdf');
 
         Route::get('/{machine}/{date}', [TrackingMachineController::class, 'show'])
             ->name('show');

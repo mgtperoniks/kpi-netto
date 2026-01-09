@@ -6,30 +6,44 @@
 
 <x-card title="KPI Harian Operator">
 
-    <div class="flex justify-between items-center mb-4">
-        <div class="text-sm text-gray-500">
-            Data KPI Operator
-        </div>
+    <div class="mb-6">
+        <h3 class="text-lg font-medium leading-6 text-gray-900">Data KPI Operator</h3>
+        <p class="mt-1 text-sm text-gray-500">
+            Rekapitulasi data harian per tanggal {{ \Carbon\Carbon::parse($date)->translatedFormat('d F Y') }}
+        </p>
+    </div>
+
+    {{-- FILTER & ACTIONS --}}
+    <div class="flex flex-wrap gap-2 mb-4 items-center">
+        {{-- FILTER FORM --}}
+        <form method="GET" class="flex gap-2">
+            <input
+                type="date"
+                name="date"
+                value="{{ request('date', $date) }}"
+                class="border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm"
+            >
+
+            <button class="bg-blue-600 text-white px-6 py-2 rounded-md text-sm font-medium hover:bg-blue-700 transition shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                Filter
+            </button>
+        </form>
+
+        <div class="w-px h-8 bg-gray-300 mx-2"></div> {{-- Divider --}}
+
+        {{-- ACTIONS --}}
+        <a href="{{ route('tracking.operator.pdf', $date) }}"
+           style="background-color: #dc2626; color: white;"
+           class="inline-flex items-center justify-center px-6 py-2 rounded-md text-sm font-medium text-white bg-red-600 hover:bg-red-700 transition shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+            Download PDF
+        </a>
 
         <a href="{{ url('/export/operator/'.$date) }}"
-           class="text-sm bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded">
+           style="background-color: #16a34a; color: white;"
+           class="inline-flex items-center justify-center px-6 py-2 rounded-md text-sm font-medium text-white bg-green-600 hover:bg-green-700 transition shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
             Download Excel
         </a>
     </div>
-
-    {{-- FILTER TANGGAL --}}
-    <form method="GET" class="flex gap-2 mb-4">
-        <input
-            type="date"
-            name="date"
-            value="{{ request('date', $date) }}"
-            class="border rounded px-2 py-1 text-sm"
-        >
-
-        <button class="bg-blue-600 text-white px-3 py-1 rounded text-sm">
-            Filter
-        </button>
-    </form>
 
     <x-table>
         <thead class="bg-gray-100">

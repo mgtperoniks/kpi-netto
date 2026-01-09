@@ -7,6 +7,7 @@ use App\Models\ProductionLog;
 
 // MASTER MIRROR (READ ONLY - SSOT)
 use App\Models\MdMachineMirror;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class TrackingMachineController extends Controller
 {
@@ -76,5 +77,26 @@ class TrackingMachineController extends Controller
             'machine'    => $machineCode,
             'date'       => $date,
         ]);
+    }
+    /**
+     * ===============================
+     * EXPORT PDF
+     * ===============================
+     */
+    public function exportPdf(string $date)
+    {
+        $rows = DailyKpiMachine::where('kpi_date', $date)
+            ->orderBy('machine_code')
+            ->get();
+
+        $machineNames = MdMachineMirror::pluck('name', 'code');
+
+        $pdf = Pdf::loadView('tracking.machine.pdf', [
+            'rows'         => $rows,
+            'machineNames' => $machineNames,
+            'date'         => $date,
+        ]);
+
+        return $pdf->download('KPI-Mesin-'.$date.'.pdf');
     }
 }

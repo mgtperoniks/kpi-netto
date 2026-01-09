@@ -7,6 +7,7 @@ use App\Models\ProductionLog;
 
 // MASTER MIRROR (READ ONLY - SSOT)
 use App\Models\MdOperatorMirror;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class TrackingOperatorController extends Controller
 {
@@ -73,5 +74,26 @@ class TrackingOperatorController extends Controller
             'summary'    => $summary,
             'activities' => $activities,
         ]);
+    }
+    /**
+     * ===============================
+     * EXPORT PDF
+     * ===============================
+     */
+    public function exportPdf(string $date)
+    {
+        $rows = DailyKpiOperator::where('kpi_date', $date)
+            ->orderBy('operator_code')
+            ->get();
+
+        $operatorNames = MdOperatorMirror::pluck('name', 'code');
+
+        $pdf = Pdf::loadView('tracking.operator.pdf', [
+            'rows'          => $rows,
+            'operatorNames' => $operatorNames,
+            'date'          => $date,
+        ]);
+
+        return $pdf->download('KPI-Operator-'.$date.'.pdf');
     }
 }

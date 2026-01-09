@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 // MASTER MIRROR (READ ONLY - SSOT)
 use App\Models\MdMachineMirror;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class TrackingDowntimeController extends Controller
 {
@@ -61,5 +62,37 @@ class TrackingDowntimeController extends Controller
             'machineNames' => $machineNames,
             'date'         => $date,
         ]);
+    }
+    /**
+     * ===============================
+     * EXPORT PDF
+     * ===============================
+     */
+    public function exportPdf(string $date)
+    {
+        $list = DowntimeLog::where('downtime_date', $date)
+            ->orderBy('machine_code')
+            ->orderByDesc('duration_minutes')
+            ->get();
+
+        $summary = DowntimeLog::where('downtime_date', $date)
+            ->select(
+                'machine_code',
+                DB::raw('SUM(duration_minutes) as total_minutes')
+            )
+            ->groupBy('machine_code')
+            ->orderBy('machine_code')
+            ->get();
+
+        $machineNames = MdMachineMirror::pluck('name', 'code');
+
+        $pdf = Pdf::loadView('downtime.pdf', [
+            'list'         => $list,
+            'summary'      => $summary,
+            'machineNames' => $machineNames,
+            'date'         => $date,
+        ]);
+
+        return $pdf->download('Laporan-Downtime-'.$date.'.pdf');
     }
 }
