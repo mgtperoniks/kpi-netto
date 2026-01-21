@@ -16,6 +16,7 @@
     },
     "dependencies": {
         "@fontsource/inter": "^5.2.8",
+        "@fontsource/material-icons-round": "^5.2.6",
         "alpinejs": "^3.15.3",
         "chart.js": "^4.5.1",
         "material-symbols": "^0.40.2"
