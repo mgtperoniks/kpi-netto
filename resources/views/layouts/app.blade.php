@@ -52,6 +52,20 @@
 
     {{-- Page Specific Scripts --}}
     @stack('scripts')
+
+    @if (session('success'))
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil',
+                    text: "{{ session('success') }}",
+                    // timer: 3000,
+                    // showConfirmButton: false
+                });
+            });
+        </script>
+    @endif
 </body>
 
 </html>

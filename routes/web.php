@@ -124,6 +124,22 @@ Route::middleware('auth')->group(function () {
 
     /*
     |--------------------------------------------------------------------------
+    | Daily Report (Daftar Harian)
+    |--------------------------------------------------------------------------
+    */
+    Route::prefix('daily-report')->name('daily_report.')->group(function () {
+
+        Route::prefix('operator')->name('operator.')->group(function () {
+            Route::get('/', [\App\Http\Controllers\DailyReportController::class, 'operatorIndex'])->name('index');
+            Route::get('/show/{date}', [\App\Http\Controllers\DailyReportController::class, 'operatorShow'])->name('show');
+            Route::delete('/destroy/{id}', [\App\Http\Controllers\DailyReportController::class, 'operatorDestroy'])->name('destroy');
+            Route::get('/pdf/{date}', [\App\Http\Controllers\DailyReportController::class, 'operatorExportPdf'])->name('pdf');
+        });
+
+    });
+
+    /*
+    |--------------------------------------------------------------------------
     | Export
     |--------------------------------------------------------------------------
     */

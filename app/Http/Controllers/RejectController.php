@@ -100,7 +100,7 @@ class RejectController extends Controller
 
         return redirect()
             ->back()
-            ->with('success', 'Data reject berhasil disimpan.');
+            ->with('success', "Data reject a.n. {$operator->name} berhasil disimpan.");
     }
 
     /**

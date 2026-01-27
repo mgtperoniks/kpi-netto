@@ -154,6 +154,14 @@
             <span class="font-medium">Riwayat Downtime</span>
         </a>
 
+        <div class="mt-6 mb-2 px-3 text-[10px] font-semibold text-blue-300 uppercase tracking-wider">Daftar Harian</div>
+
+        <a href="{{ route('daily_report.operator.index') }}"
+            class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors {{ request()->routeIs('daily_report.operator.*') ? 'bg-blue-600 text-white shadow-lg' : 'text-blue-100 hover:bg-white/5 hover:text-white' }}">
+            <span class="material-icons-round text-xl">assignment_ind</span>
+            <span class="font-medium">Operator</span>
+        </a>
+
     </nav>
 
 </aside>

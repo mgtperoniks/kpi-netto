@@ -41,14 +41,14 @@ class PullMasterMachines extends Command
             MdMachineMirror::updateOrCreate(
                 ['code' => $m->code],
                 [
-                    'name'               => $m->name,
-                    'department_code'    => $m->department_code,
-                    'line_code'          => $m->line_code,
-                    'status'             => 'active', // force active
-                    'runtime_status'     => $runtimeStatus,
-                    'last_seen_at'       => $m->last_seen_at,
+                    'name' => $m->name,
+                    'department_code' => $m->department_code,
+                    'line_code' => $m->line_code,
+                    'status' => 'active', // force active
+                    'runtime_status' => $runtimeStatus,
+                    'last_seen_at' => $m->last_seen_at,
                     'last_active_module' => $m->last_active_module,
-                    'last_sync_at'       => $m->last_sync_at,
+                    'last_sync_at' => $m->last_sync_at,
                 ]
             );
 

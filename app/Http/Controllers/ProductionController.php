@@ -163,7 +163,7 @@ class ProductionController extends Controller
 
         return redirect()
             ->back()
-            ->with('success', 'Data produksi berhasil disimpan.');
+            ->with('success', "Data produksi a.n. {$operator->name} berhasil disimpan.");
     }
 
     /**

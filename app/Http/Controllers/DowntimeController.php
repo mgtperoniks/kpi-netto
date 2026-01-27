@@ -102,7 +102,7 @@ class DowntimeController extends Controller
 
         return redirect()
             ->back()
-            ->with('success', 'Downtime berhasil disimpan.');
+            ->with('success', "Downtime a.n. {$operator->name} berhasil disimpan.");
     }
 
     /**
