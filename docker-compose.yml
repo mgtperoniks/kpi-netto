@@ -1,0 +1,14 @@
+services:
+  app:
+    container_name: kpi-bubut-app
+    build: .
+    restart: always
+    ports:
+      - "9002:80"
+    env_file: .env
+    networks:
+      - kpinet
+
+networks:
+  kpinet:
+    external: true
