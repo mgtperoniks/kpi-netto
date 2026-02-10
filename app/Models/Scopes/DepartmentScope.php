@@ -27,6 +27,14 @@ class DepartmentScope implements Scope
                         // Use exact match to distinguish between 404.1 and sub-depts like 404.1.1
                         $builder->where('department_code', $selected);
                     }
+                    return;
+                }
+
+                // Default filter if no session context:
+                // Only Direktur and MR see everything by default.
+                // Others (Admin Dept, HR, Guest) are restricted to their own branch by default.
+                if (!in_array($user->role, ['direktur', 'mr'])) {
+                    $builder->where('department_code', 'LIKE', $user->department_code . '%');
                 }
 
                 return;
