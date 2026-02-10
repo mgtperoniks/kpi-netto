@@ -14,7 +14,8 @@ class DailyKpiService
      */
     public static function generateOperatorDaily(string $date): void
     {
-        $rows = ProductionLog::where('production_date', $date)
+        $rows = ProductionLog::withoutGlobalScopes()
+            ->where('production_date', $date)
             ->select(
                 'department_code',
                 'operator_code',
@@ -34,7 +35,7 @@ class DailyKpiService
                 ? round(($row->total_actual_qty / $row->total_target_qty) * 100, 2)
                 : 0;
 
-            DailyKpiOperator::updateOrCreate(
+            DailyKpiOperator::withoutGlobalScopes()->updateOrCreate(
                 [
                     'kpi_date' => $date,
                     'department_code' => $row->department_code,
@@ -50,7 +51,8 @@ class DailyKpiService
         }
 
         // 2. Remove Stale Records (Operators that no longer have logs for this date)
-        DailyKpiOperator::where('kpi_date', $date)
+        DailyKpiOperator::withoutGlobalScopes()
+            ->where('kpi_date', $date)
             ->whereNotIn('operator_code', $activeOperators)
             ->delete();
     }
@@ -60,7 +62,8 @@ class DailyKpiService
      */
     public static function generateMachineDaily(string $date): void
     {
-        $rows = ProductionLog::where('production_date', $date)
+        $rows = ProductionLog::withoutGlobalScopes()
+            ->where('production_date', $date)
             ->select(
                 'department_code',
                 'machine_code',
@@ -80,7 +83,7 @@ class DailyKpiService
                 ? round(($row->total_actual_qty / $row->total_target_qty) * 100, 2)
                 : 0;
 
-            DailyKpiMachine::updateOrCreate(
+            DailyKpiMachine::withoutGlobalScopes()->updateOrCreate(
                 [
                     'kpi_date' => $date,
                     'department_code' => $row->department_code,
@@ -96,7 +99,8 @@ class DailyKpiService
         }
 
         // 2. Remove Stale Records
-        DailyKpiMachine::where('kpi_date', $date)
+        DailyKpiMachine::withoutGlobalScopes()
+            ->where('kpi_date', $date)
             ->whereNotIn('machine_code', $activeMachines)
             ->delete();
     }
