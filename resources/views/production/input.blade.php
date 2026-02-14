@@ -277,13 +277,22 @@
                         <div class="space-y-1.5">
                             <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Capaian</label>
                             <div class="w-full rounded-xl text-center font-bold text-lg p-3 border" :class="{
-                                                                                            'bg-emerald-50 text-emerald-600 border-emerald-200': achievement >= 100,
-                                                                                            'bg-amber-50 text-amber-600 border-amber-200': achievement >= 80 && achievement < 100,
-                                                                                            'bg-red-50 text-red-600 border-red-200': achievement < 80
-                                                                                        }">
+                                                                                                'bg-emerald-50 text-emerald-600 border-emerald-200': achievement >= 100,
+                                                                                                'bg-amber-50 text-amber-600 border-amber-200': achievement >= 80 && achievement < 100,
+                                                                                                'bg-red-50 text-red-600 border-red-200': achievement < 80
+                                                                                            }">
                                 <span x-text="achievement + '%'">0%</span>
                             </div>
                         </div>
+                    </div>
+
+                    {{-- Catatan --}}
+                    <div class="space-y-1.5 mt-2">
+                        <label class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Catatan
+                            (Opsional)</label>
+                        <input type="text" name="note"
+                            class="w-full bg-slate-50 border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm p-3 font-medium text-slate-700"
+                            placeholder="Keterangan tambahan...">
                     </div>
 
                 </div>
@@ -516,33 +525,33 @@
                     }
 
                     const summaryHtml = `
-                                        <div class="text-left text-sm text-slate-600 space-y-2 bg-slate-50 p-4 rounded-xl border border-slate-200">
-                                            <div class="flex justify-between border-b border-slate-200 pb-2">
-                                                <span class="font-medium">Operator:</span>
-                                                <span class="font-bold text-slate-800">${this.selectedOperatorName}</span>
+                                            <div class="text-left text-sm text-slate-600 space-y-2 bg-slate-50 p-4 rounded-xl border border-slate-200">
+                                                <div class="flex justify-between border-b border-slate-200 pb-2">
+                                                    <span class="font-medium">Operator:</span>
+                                                    <span class="font-bold text-slate-800">${this.selectedOperatorName}</span>
+                                                </div>
+                                                <div class="flex justify-between border-b border-slate-200 pb-2">
+                                                    <span class="font-medium">Mesin:</span>
+                                                    <span class="font-bold text-slate-800">${this.machineSearch}</span>
+                                                </div>
+                                                <div class="flex justify-between border-b border-slate-200 pb-2">
+                                                    <span class="font-medium">Barang/Heat:</span>
+                                                    <span class="font-bold text-slate-800">${this.selectedItemName} (${this.selectedHeatNumber || '-'})</span>
+                                                </div>
+                                                <div class="flex justify-between border-b border-slate-200 pb-2">
+                                                    <span class="font-medium">Cycle Time:</span>
+                                                    <span class="font-bold text-slate-800">${this.cycleTimeMinutes}m ${this.cycleTimeSeconds}s</span>
+                                                </div>
+                                                <div class="flex justify-between border-b border-slate-200 pb-2">
+                                                    <span class="font-medium">Waktu:</span>
+                                                    <span class="font-bold text-slate-800">${this.timeStart} - ${this.timeEnd}</span>
+                                                </div>
+                                                <div class="flex justify-between pt-1">
+                                                    <span class="font-medium">Hasil Output:</span>
+                                                    <span class="font-bold text-blue-600 text-lg">${this.actualQty} PCS</span>
+                                                </div>
                                             </div>
-                                            <div class="flex justify-between border-b border-slate-200 pb-2">
-                                                <span class="font-medium">Mesin:</span>
-                                                <span class="font-bold text-slate-800">${this.machineSearch}</span>
-                                            </div>
-                                            <div class="flex justify-between border-b border-slate-200 pb-2">
-                                                <span class="font-medium">Barang/Heat:</span>
-                                                <span class="font-bold text-slate-800">${this.selectedItemName} (${this.selectedHeatNumber || '-'})</span>
-                                            </div>
-                                            <div class="flex justify-between border-b border-slate-200 pb-2">
-                                                <span class="font-medium">Cycle Time:</span>
-                                                <span class="font-bold text-slate-800">${this.cycleTimeMinutes}m ${this.cycleTimeSeconds}s</span>
-                                            </div>
-                                            <div class="flex justify-between border-b border-slate-200 pb-2">
-                                                <span class="font-medium">Waktu:</span>
-                                                <span class="font-bold text-slate-800">${this.timeStart} - ${this.timeEnd}</span>
-                                            </div>
-                                            <div class="flex justify-between pt-1">
-                                                <span class="font-medium">Hasil Output:</span>
-                                                <span class="font-bold text-blue-600 text-lg">${this.actualQty} PCS</span>
-                                            </div>
-                                        </div>
-                                    `;
+                                        `;
 
                     Swal.fire({
                         title: 'Verifikasi Data',

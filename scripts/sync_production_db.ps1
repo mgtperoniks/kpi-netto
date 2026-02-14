@@ -37,7 +37,7 @@ $LocalDbPass = "123456788"
 $LocalBackupDir = "C:\laragon\www\kpi-bubut\backups"
 
 # Cari path MySQL Laragon secara dinamis (atau gunakan default jika tidak ketemu)
-$LaragonMysql = "C:\laragon\bin\mysql\mysql-8.0.30-winx64\bin\mysql.exe"
+$LaragonMysql = "C:\laragon\bin\mysql\mysql-8.4.3-winx64\bin\mysql.exe"
 if (!(Test-Path $LaragonMysql)) {
     # Coba cari versi lain di folder bin\mysql
     $MysqlPaths = Get-ChildItem "C:\laragon\bin\mysql\*\bin\mysql.exe"

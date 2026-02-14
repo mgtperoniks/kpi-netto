@@ -148,6 +148,9 @@
                         @if($row->remark)
                             <br><small style="color:red">{{ $row->remark }}</small>
                         @endif
+                        @if($row->note)
+                            <br><small style="color:blue">{{ $row->note }}</small>
+                        @endif
                     </td>
                     <td class="col-time">
                         {{ number_format($row->work_hours, 2) }} Jam

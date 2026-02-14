@@ -137,6 +137,109 @@ class DailyReportController extends Controller
 
     /**
      * ===============================
+     * EDIT (FORM EDIT INPUTAN)
+     * ===============================
+     */
+    public function operatorEdit($id)
+    {
+        if (auth()->user()->isReadOnly()) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $log = ProductionLog::with(['operator', 'machine', 'item'])->findOrFail($id);
+
+        if (\App\Services\DateLockService::isLocked($log->production_date)) {
+            abort(403, 'Data sudah dikunci. Tidak dapat mengedit.');
+        }
+
+        return view('daily_report.operator.edit', [
+            'log' => $log,
+        ]);
+    }
+
+    /**
+     * ===============================
+     * UPDATE (SIMPAN EDIT INPUTAN)
+     * ===============================
+     */
+    public function operatorUpdate(Request $request, $id)
+    {
+        if (auth()->user()->isReadOnly()) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $log = ProductionLog::findOrFail($id);
+
+        if (\App\Services\DateLockService::isLocked($log->production_date)) {
+            abort(403, 'Data sudah dikunci. Tidak dapat mengedit.');
+        }
+
+        $validated = $request->validate([
+            'shift' => 'required|string|max:10',
+            'time_start' => 'required|date_format:H:i',
+            'time_end' => 'required|date_format:H:i',
+            'cycle_time_minutes' => 'required|integer|min:0',
+            'cycle_time_seconds' => 'required|integer|min:0|max:59',
+            'actual_qty' => 'required|integer|min:0',
+            'remark' => 'nullable|string|max:50',
+            'note' => 'nullable|string|max:255',
+        ]);
+
+        // Re-calculate work hours
+        $startSeconds = strtotime($validated['time_start']);
+        $endSeconds = strtotime($validated['time_end']);
+
+        if ($endSeconds < $startSeconds) {
+            $endSeconds += 86400;
+        }
+
+        $workSeconds = $endSeconds - $startSeconds;
+
+        if ($workSeconds <= 0) {
+            return back()->withErrors(['time_end' => 'Jam selesai harus lebih besar dari jam mulai.'])->withInput();
+        }
+
+        $workHours = round($workSeconds / 3600, 2);
+
+        // Re-calculate cycle time
+        $cycleTimeSec = ($validated['cycle_time_minutes'] * 60) + $validated['cycle_time_seconds'];
+
+        if ($cycleTimeSec <= 0) {
+            return back()->withErrors(['cycle_time_seconds' => 'Total Cycle Time tidak boleh 0 detik.'])->withInput();
+        }
+
+        // Re-calculate target & achievement
+        $targetQty = intdiv($workSeconds, $cycleTimeSec);
+        $actualQty = (int) $validated['actual_qty'];
+        $achievementPercent = $targetQty > 0
+            ? round(($actualQty / $targetQty) * 100, 2)
+            : 0;
+
+        // Update record
+        $log->update([
+            'shift' => $validated['shift'],
+            'time_start' => $validated['time_start'],
+            'time_end' => $validated['time_end'],
+            'work_hours' => $workHours,
+            'cycle_time_used_sec' => $cycleTimeSec,
+            'target_qty' => $targetQty,
+            'actual_qty' => $actualQty,
+            'achievement_percent' => $achievementPercent,
+            'remark' => $validated['remark'] ?? null,
+            'note' => $validated['note'] ?? null,
+        ]);
+
+        // Regenerate KPI
+        \App\Services\DailyKpiService::generateOperatorDaily($log->production_date);
+        \App\Services\DailyKpiService::generateMachineDaily($log->production_date);
+
+        return redirect()
+            ->route('daily_report.operator.show', $log->production_date)
+            ->with('success', "Data berhasil diperbarui: Operator {$log->operator_code} di Mesin {$log->machine_code}");
+    }
+
+    /**
+     * ===============================
      * DESTROY (HAPUS INPUTAN)
      * ===============================
      */

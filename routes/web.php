@@ -132,6 +132,8 @@ Route::middleware('auth')->group(function () {
         Route::prefix('operator')->name('operator.')->group(function () {
             Route::get('/', [\App\Http\Controllers\DailyReportController::class, 'operatorIndex'])->name('index');
             Route::get('/show/{date}', [\App\Http\Controllers\DailyReportController::class, 'operatorShow'])->name('show');
+            Route::get('/edit/{id}', [\App\Http\Controllers\DailyReportController::class, 'operatorEdit'])->name('edit');
+            Route::put('/update/{id}', [\App\Http\Controllers\DailyReportController::class, 'operatorUpdate'])->name('update');
             Route::delete('/destroy/{id}', [\App\Http\Controllers\DailyReportController::class, 'operatorDestroy'])->name('destroy');
             Route::get('/pdf/{date}', [\App\Http\Controllers\DailyReportController::class, 'operatorExportPdf'])->name('pdf');
             // Locking

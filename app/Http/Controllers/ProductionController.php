@@ -69,6 +69,7 @@ class ProductionController extends Controller
 
             'actual_qty' => 'required|integer|min:0',
             'remark' => 'nullable|string|max:50',
+            'note' => 'nullable|string|max:255',
         ]);
 
         /**
@@ -166,6 +167,7 @@ class ProductionController extends Controller
             'actual_qty' => $actualQty,
             'achievement_percent' => $achievementPercent,
             'remark' => $validated['remark'] ?? null,
+            'note' => $validated['note'] ?? null,
         ]);
 
         // Regenerate KPI (Daily Recap)
