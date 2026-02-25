@@ -1,0 +1,309 @@
+[
+    {
+        "Id": "bed0e2d78633a3a6990c50395cbae2fbba6f39f7b2be1bfd35b2ec1866c36156",
+        "Created": "2026-02-21T01:58:31.057264669Z",
+        "Path": "docker-php-entrypoint",
+        "Args": [
+            "apache2-foreground"
+        ],
+        "State": {
+            "Status": "running",
+            "Running": true,
+            "Paused": false,
+            "Restarting": false,
+            "OOMKilled": false,
+            "Dead": false,
+            "Pid": 683207,
+            "ExitCode": 0,
+            "Error": "",
+            "StartedAt": "2026-02-21T01:58:32.804263509Z",
+            "FinishedAt": "0001-01-01T00:00:00Z"
+        },
+        "Image": "sha256:8527e209380da6464747d9ba21b1063657c8438cd6d9b4992c3df78b4e5fa0c2",
+        "ResolvConfPath": "/var/lib/docker/containers/bed0e2d78633a3a6990c50395cbae2fbba6f39f7b2be1bfd35b2ec1866c36156/resolv.conf",
+        "HostnamePath": "/var/lib/docker/containers/bed0e2d78633a3a6990c50395cbae2fbba6f39f7b2be1bfd35b2ec1866c36156/hostname",
+        "HostsPath": "/var/lib/docker/containers/bed0e2d78633a3a6990c50395cbae2fbba6f39f7b2be1bfd35b2ec1866c36156/hosts",
+        "LogPath": "/var/lib/docker/containers/bed0e2d78633a3a6990c50395cbae2fbba6f39f7b2be1bfd35b2ec1866c36156/bed0e2d78633a3a6990c50395cbae2fbba6f39f7b2be1bfd35b2ec1866c36156-json.log",
+        "Name": "/kpi-bubut-app",
+        "RestartCount": 0,
+        "Driver": "overlayfs",
+        "Platform": "linux",
+        "MountLabel": "",
+        "ProcessLabel": "",
+        "AppArmorProfile": "docker-default",
+        "ExecIDs": null,
+        "HostConfig": {
+            "Binds": null,
+            "ContainerIDFile": "",
+            "LogConfig": {
+                "Type": "json-file",
+                "Config": {}
+            },
+            "NetworkMode": "kpinet",
+            "PortBindings": {
+                "80/tcp": [
+                    {
+                        "HostIp": "",
+                        "HostPort": "9002"
+                    }
+                ]
+            },
+            "RestartPolicy": {
+                "Name": "always",
+                "MaximumRetryCount": 0
+            },
+            "AutoRemove": false,
+            "VolumeDriver": "",
+            "VolumesFrom": null,
+            "ConsoleSize": [
+                0,
+                0
+            ],
+            "CapAdd": null,
+            "CapDrop": null,
+            "CgroupnsMode": "private",
+            "Dns": null,
+            "DnsOptions": null,
+            "DnsSearch": null,
+            "ExtraHosts": [],
+            "GroupAdd": null,
+            "IpcMode": "private",
+            "Cgroup": "",
+            "Links": null,
+            "OomScoreAdj": 0,
+            "PidMode": "",
+            "Privileged": false,
+            "PublishAllPorts": false,
+            "ReadonlyRootfs": false,
+            "SecurityOpt": null,
+            "UTSMode": "",
+            "UsernsMode": "",
+            "ShmSize": 67108864,
+            "Runtime": "runc",
+            "Isolation": "",
+            "CpuShares": 0,
+            "Memory": 0,
+            "NanoCpus": 0,
+            "CgroupParent": "",
+            "BlkioWeight": 0,
+            "BlkioWeightDevice": null,
+            "BlkioDeviceReadBps": null,
+            "BlkioDeviceWriteBps": null,
+            "BlkioDeviceReadIOps": null,
+            "BlkioDeviceWriteIOps": null,
+            "CpuPeriod": 0,
+            "CpuQuota": 0,
+            "CpuRealtimePeriod": 0,
+            "CpuRealtimeRuntime": 0,
+            "CpusetCpus": "",
+            "CpusetMems": "",
+            "Devices": null,
+            "DeviceCgroupRules": null,
+            "DeviceRequests": null,
+            "MemoryReservation": 0,
+            "MemorySwap": 0,
+            "MemorySwappiness": null,
+            "OomKillDisable": null,
+            "PidsLimit": null,
+            "Ulimits": null,
+            "CpuCount": 0,
+            "CpuPercent": 0,
+            "IOMaximumIOps": 0,
+            "IOMaximumBandwidth": 0,
+            "MaskedPaths": [
+                "/proc/acpi",
+                "/proc/asound",
+                "/proc/interrupts",
+                "/proc/kcore",
+                "/proc/keys",
+                "/proc/latency_stats",
+                "/proc/sched_debug",
+                "/proc/scsi",
+                "/proc/timer_list",
+                "/proc/timer_stats",
+                "/sys/devices/virtual/powercap",
+                "/sys/firmware",
+                "/sys/devices/system/cpu/cpu0/thermal_throttle",
+                "/sys/devices/system/cpu/cpu1/thermal_throttle",
+                "/sys/devices/system/cpu/cpu2/thermal_throttle",
+                "/sys/devices/system/cpu/cpu3/thermal_throttle",
+                "/sys/devices/system/cpu/cpu4/thermal_throttle",
+                "/sys/devices/system/cpu/cpu5/thermal_throttle",
+                "/sys/devices/system/cpu/cpu6/thermal_throttle",
+                "/sys/devices/system/cpu/cpu7/thermal_throttle",
+                "/sys/devices/system/cpu/cpu8/thermal_throttle",
+                "/sys/devices/system/cpu/cpu9/thermal_throttle",
+                "/sys/devices/system/cpu/cpu10/thermal_throttle",
+                "/sys/devices/system/cpu/cpu11/thermal_throttle"
+            ],
+            "ReadonlyPaths": [
+                "/proc/bus",
+                "/proc/fs",
+                "/proc/irq",
+                "/proc/sys",
+                "/proc/sysrq-trigger"
+            ]
+        },
+        "Storage": {
+            "RootFS": {
+                "Snapshot": {
+                    "Name": "overlayfs"
+                }
+            }
+        },
+        "Mounts": [],
+        "Config": {
+            "Hostname": "bed0e2d78633",
+            "Domainname": "",
+            "User": "",
+            "AttachStdin": false,
+            "AttachStdout": true,
+            "AttachStderr": true,
+            "ExposedPorts": {
+                "80/tcp": {}
+            },
+            "Tty": false,
+            "OpenStdin": false,
+            "StdinOnce": false,
+            "Env": [
+                "MASTER_DB_DATABASE=masterdata_kpi",
+                "MAIL_SCHEME=null",
+                "DB_PORT=3306",
+                "DB_DATABASE=kpi_bubut",
+                "AWS_DEFAULT_REGION=us-east-1",
+                "SESSION_LIFETIME=120",
+                "REDIS_PORT=6379",
+                "MAIL_FROM_ADDRESS=hello@example.com",
+                "APP_KEY=base64:yKdeHW9rDs2G58qhslKoVvYZ21MIbRbMWvbesbBOC0s=",
+                "APP_FAKER_LOCALE=en_US",
+                "LOG_LEVEL=debug",
+                "APP_URL=http://10.88.8.46:9002",
+                "AWS_BUCKET=",
+                "MASTER_DB_PORT=3306",
+                "SESSION_PATH=/",
+                "VITE_APP_NAME=KPI Bubut",
+                "REDIS_CLIENT=phpredis",
+                "MAIL_MAILER=log",
+                "MAIL_PORT=2525",
+                "LOG_DEPRECATIONS_CHANNEL=null",
+                "AWS_USE_PATH_STYLE_ENDPOINT=false",
+                "MAIL_HOST=127.0.0.1",
+                "MASTER_DB_PASSWORD=123456788",
+                "DB_CONNECTION=mysql",
+                "MASTER_DB_USERNAME=root",
+                "LOG_CHANNEL=stack",
+                "APP_LOCALE=en",
+                "SESSION_DOMAIN=null",
+                "QUEUE_CONNECTION=database",
+                "MEMCACHED_HOST=127.0.0.1",
+                "MAIL_PASSWORD=null",
+                "DB_USERNAME=root",
+                "CACHE_STORE=database",
+                "APP_NAME=KPI Bubut",
+                "AWS_SECRET_ACCESS_KEY=",
+                "SESSION_DRIVER=database",
+                "BCRYPT_ROUNDS=12",
+                "FILESYSTEM_DISK=local",
+                "MASTER_DB_HOST=masterdatakpi-db",
+                "BROADCAST_CONNECTION=log",
+                "APP_MAINTENANCE_DRIVER=file",
+                "APP_FALLBACK_LOCALE=en",
+                "REDIS_HOST=127.0.0.1",
+                "APP_ENV=production",
+                "SESSION_ENCRYPT=false",
+                "REDIS_PASSWORD=null",
+                "APP_DEBUG=true",
+                "DB_PASSWORD=123456788",
+                "MAIL_FROM_NAME=KPI Bubut",
+                "MAIL_USERNAME=null",
+                "LOG_STACK=single",
+                "AWS_ACCESS_KEY_ID=",
+                "DB_HOST=masterdatakpi-db",
+                "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                "PHPIZE_DEPS=autoconf \t\tdpkg-dev \t\tfile \t\tg++ \t\tgcc \t\tlibc-dev \t\tmake \t\tpkg-config \t\tre2c",
+                "PHP_INI_DIR=/usr/local/etc/php",
+                "APACHE_CONFDIR=/etc/apache2",
+                "APACHE_ENVVARS=/etc/apache2/envvars",
+                "PHP_CFLAGS=-fstack-protector-strong -fpic -fpie -O2 -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+                "PHP_CPPFLAGS=-fstack-protector-strong -fpic -fpie -O2 -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64",
+                "PHP_LDFLAGS=-Wl,-O1 -pie",
+                "GPG_KEYS=39B641343D8C104B2B146DC3F9C39DC0B9698544 E60913E4DF209907D8E30D96659A97C9CF2A795A 1198C0117593497A5EC5C199286AF1F9897469DC",
+                "PHP_VERSION=8.2.30",
+                "PHP_URL=https://www.php.net/distributions/php-8.2.30.tar.xz",
+                "PHP_ASC_URL=https://www.php.net/distributions/php-8.2.30.tar.xz.asc",
+                "PHP_SHA256=bc90523e17af4db46157e75d0c9ef0b9d0030b0514e62c26ba7b513b8c4eb015",
+                "APACHE_DOCUMENT_ROOT=/var/www/html/public"
+            ],
+            "Cmd": [
+                "apache2-foreground"
+            ],
+            "Image": "kpi-bubut-app",
+            "Volumes": null,
+            "WorkingDir": "/var/www/html",
+            "Entrypoint": [
+                "docker-php-entrypoint"
+            ],
+            "Labels": {
+                "com.docker.compose.config-hash": "dd84d26985a46d142fd15f1458638752a8aa249f4c1bb164dc9bb71e8a33eaf9",
+                "com.docker.compose.container-number": "1",
+                "com.docker.compose.depends_on": "",
+                "com.docker.compose.image": "sha256:8527e209380da6464747d9ba21b1063657c8438cd6d9b4992c3df78b4e5fa0c2",
+                "com.docker.compose.oneoff": "False",
+                "com.docker.compose.project": "kpi-bubut",
+                "com.docker.compose.project.config_files": "/srv/docker/apps/kpi-bubut/docker-compose.yml",
+                "com.docker.compose.project.working_dir": "/srv/docker/apps/kpi-bubut",
+                "com.docker.compose.replace": "kpi-bubut-app",
+                "com.docker.compose.service": "app",
+                "com.docker.compose.version": "5.0.1"
+            },
+            "StopSignal": "SIGWINCH"
+        },
+        "NetworkSettings": {
+            "SandboxID": "dfc27b4fad241a1b007db0af09de5b2ebdc98bd232d5517ffd875f860993ee3f",
+            "SandboxKey": "/var/run/docker/netns/dfc27b4fad24",
+            "Ports": {
+                "80/tcp": [
+                    {
+                        "HostIp": "0.0.0.0",
+                        "HostPort": "9002"
+                    }
+                ]
+            },
+            "Networks": {
+                "kpinet": {
+                    "IPAMConfig": null,
+                    "Links": null,
+                    "Aliases": [
+                        "kpi-bubut-app",
+                        "app"
+                    ],
+                    "DriverOpts": null,
+                    "GwPriority": 0,
+                    "NetworkID": "f82a912de3c779e29c892a8e185ba0a46ce7d0c56ff1c356a2e6a349ee95bf93",
+                    "EndpointID": "8f581d3a93e3595aede81643f5d9abb24fdb99a2be900d380346f96589747590",
+                    "Gateway": "172.20.0.1",
+                    "IPAddress": "172.20.0.3",
+                    "MacAddress": "da:c6:6c:4f:7c:a8",
+                    "IPPrefixLen": 16,
+                    "IPv6Gateway": "",
+                    "GlobalIPv6Address": "",
+                    "GlobalIPv6PrefixLen": 0,
+                    "DNSNames": [
+                        "kpi-bubut-app",
+                        "app",
+                        "bed0e2d78633"
+                    ]
+                }
+            }
+        },
+        "ImageManifestDescriptor": {
+            "mediaType": "application/vnd.oci.image.manifest.v1+json",
+            "digest": "sha256:eb824c51f460d90655c560fbdc6819207670dfae722e6b4e882792d823783c70",
+            "size": 5796,
+            "platform": {
+                "architecture": "amd64",
+                "os": "linux"
+            }
+        }
+    }
+]

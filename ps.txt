@@ -1,0 +1,17 @@
+CONTAINER ID   IMAGE                               COMMAND                  CREATED        STATUS        PORTS                                        NAMES
+ac1457d67622   kanban-ppic-app                     "docker-php-entrypoi…"   43 hours ago   Up 43 hours   0.0.0.0:6002->80/tcp                         kanban-ppic-app
+09f5ee540c1d   ptk-tracker-app                     "docker-php-entrypoi…"   46 hours ago   Up 46 hours   9000/tcp                                     ptk_app
+e78bb493e01a   mysql:8.0                           "docker-entrypoint.s…"   3 days ago     Up 43 hours   3306/tcp, 33060/tcp                          kanban-ppic-db
+bed0e2d78633   kpi-bubut-app                       "docker-php-entrypoi…"   4 days ago     Up 4 days     0.0.0.0:9002->80/tcp                         kpi-bubut-app
+455141f785d5   masterdatakpi-app                   "docker-php-entrypoi…"   4 days ago     Up 4 days     0.0.0.0:6001->80/tcp                         masterdatakpi-app
+dff69264f02e   stirlingtools/stirling-pdf:latest   "tini -- /scripts/in…"   13 days ago    Up 13 days    0.0.0.0:8080->8080/tcp                       stirling-pdf
+a000822971d4   peroni-cloud-app                    "docker-php-entrypoi…"   13 days ago    Up 13 days    9000/tcp, 0.0.0.0:1001->8000/tcp             peroni_cloud_app
+bb3ace8c8c62   mysql:8.0                           "docker-entrypoint.s…"   3 weeks ago    Up 2 weeks    3306/tcp, 33060/tcp                          peroni_cloud_db
+deea5235d67a   mysql:8.0                           "docker-entrypoint.s…"   3 weeks ago    Up 2 weeks    3306/tcp, 33060/tcp                          masterdatakpi-db
+6489b5ecb3fd   nginx:alpine                        "/docker-entrypoint.…"   4 weeks ago    Up 2 weeks    0.0.0.0:6003->80/tcp                         library-iso-web
+c402e378a33e   library-iso-app                     "docker-php-entrypoi…"   4 weeks ago    Up 2 weeks    9000/tcp                                     library-iso-app
+6dde550149dd   mysql:8.0                           "docker-entrypoint.s…"   4 weeks ago    Up 2 weeks    3306/tcp, 33060/tcp                          library-iso-db
+00e96687da4b   nginx:1.25-alpine                   "/docker-entrypoint.…"   4 weeks ago    Up 2 weeks    0.0.0.0:1000->80/tcp                         ptk_nginx
+94a25135a458   phpmyadmin/phpmyadmin:5             "/docker-entrypoint.…"   4 weeks ago    Up 2 weeks    0.0.0.0:8081->80/tcp                         ptk_pma
+46f07a419f7d   mysql:8.0                           "docker-entrypoint.s…"   4 weeks ago    Up 2 weeks    0.0.0.0:3306->3306/tcp, 33060/tcp            ptk_db
+d31ec52f6b4f   portainer/portainer-ce:latest       "/portainer"             5 weeks ago    Up 2 weeks    8000/tcp, 9443/tcp, 0.0.0.0:9000->9000/tcp   portainer

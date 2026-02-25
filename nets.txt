@@ -1,0 +1,9 @@
+NETWORK ID     NAME                              DRIVER    SCOPE
+c4cb5d3d930c   bridge                            bridge    local
+0dd24baf7418   host                              host      local
+f82a912de3c7   kpinet                            bridge    local
+fd50725d73ac   library-iso_library-iso-network   bridge    local
+479ab60a404c   none                              null      local
+4b82802d7747   peroni-cloud_default              bridge    local
+3732dd0a24ad   ptk-tracker_ptk_net               bridge    local
+d31f7be3d658   stirling_default                  bridge    local
