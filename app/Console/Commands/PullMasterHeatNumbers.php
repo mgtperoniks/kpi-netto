@@ -24,7 +24,7 @@ class PullMasterHeatNumbers extends Command
             ->orderBy('id')
             ->chunk(500, function ($rows) use (&$count) {
                 foreach ($rows as $row) {
-                    $mirror = MdHeatNumberMirror::where('heat_number', $row->heat_number)
+                    $mirror = MdHeatNumberMirror::withoutGlobalScopes()->where('heat_number', $row->heat_number)
                         ->where('item_code', $row->item_code)
                         ->first();
 
@@ -33,7 +33,7 @@ class PullMasterHeatNumbers extends Command
                         continue;
                     }
 
-                    MdHeatNumberMirror::updateOrCreate(
+                    MdHeatNumberMirror::withoutGlobalScopes()->updateOrCreate(
                         [
                             'heat_number' => trim($row->heat_number),
                             'item_code' => trim($row->item_code)

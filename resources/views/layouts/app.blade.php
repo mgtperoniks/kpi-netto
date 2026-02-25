@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>@yield('title', 'KPI Bubut')</title>
+    <title>@yield('title', 'KPI Netto')</title>
 
     {{-- Fonts & Icons (Localized via app.css) --}}
 

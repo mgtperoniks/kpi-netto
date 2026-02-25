@@ -20,8 +20,8 @@ class MdMasterSeeder extends Seeder
 
         // MACHINES
         MdMachine::upsert([
-            ['code' => 'cnc1', 'name' => 'CNC-1', 'line' => 'BUBUT', 'active' => 1],
-            ['code' => 'cnc2', 'name' => 'CNC-2', 'line' => 'BUBUT', 'active' => 1],
+            ['code' => 'cnc1', 'name' => 'CNC-1', 'line' => 'NETTO', 'active' => 1],
+            ['code' => 'cnc2', 'name' => 'CNC-2', 'line' => 'NETTO', 'active' => 1],
         ], ['code']);
 
         // ITEMS

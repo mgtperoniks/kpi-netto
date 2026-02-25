@@ -5,7 +5,7 @@ namespace App\Services;
 use Illuminate\Support\Collection;
 use App\Models\MdItemMirror;
 
-class KpiBubutService
+class KpiNettoService
 {
     /**
      * =====================================
@@ -20,7 +20,7 @@ class KpiBubutService
             return [
                 'target' => 0,
                 'actual' => 0,
-                'kpi'    => 0,
+                'kpi' => 0,
             ];
         }
 
@@ -35,7 +35,7 @@ class KpiBubutService
             return [
                 'target' => 0,
                 'actual' => $actualQty,
-                'kpi'    => 0,
+                'kpi' => 0,
             ];
         }
 
@@ -48,7 +48,7 @@ class KpiBubutService
         return [
             'target' => $targetQty,
             'actual' => $actualQty,
-            'kpi'    => $kpi,
+            'kpi' => $kpi,
         ];
     }
 
@@ -65,7 +65,7 @@ class KpiBubutService
             return [
                 'target' => 0,
                 'actual' => 0,
-                'kpi'    => 0,
+                'kpi' => 0,
             ];
         }
 
@@ -101,7 +101,7 @@ class KpiBubutService
             return [
                 'target' => 0,
                 'actual' => $actualQty,
-                'kpi'    => 0,
+                'kpi' => 0,
             ];
         }
 
@@ -114,7 +114,7 @@ class KpiBubutService
         return [
             'target' => $targetQty,
             'actual' => $actualQty,
-            'kpi'    => $kpi,
+            'kpi' => $kpi,
         ];
     }
 

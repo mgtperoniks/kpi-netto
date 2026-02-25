@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
-use App\Services\KpiBubutService;
+use App\Services\KpiNettoService;
 
 // MASTER MIRROR (READ ONLY)
 use App\Models\MdItem;
@@ -16,15 +16,15 @@ class KpiController extends Controller
 {
     /**
      * ===============================
-     * KPI PER SHIFT (BUBUT)
+     * KPI PER SHIFT (NETTO)
      * ===============================
      */
-    public function shift(Request $request, KpiBubutService $service)
+    public function shift(Request $request, KpiNettoService $service)
     {
         /**
          * 1. PARAMETER AMAN
          */
-        $date  = $request->input('date', now()->toDateString());
+        $date = $request->input('date', now()->toDateString());
         $shift = $request->input('shift', 'A');
 
         /**
@@ -50,8 +50,8 @@ class KpiController extends Controller
             'code',
             $productions->pluck('item_code')->unique()
         )
-        ->where('status', '!=', 'active')
-        ->exists();
+            ->where('status', '!=', 'active')
+            ->exists();
 
         if ($inactiveItemsUsed) {
             throw ValidationException::withMessages([

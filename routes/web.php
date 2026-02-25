@@ -173,6 +173,14 @@ Route::middleware('auth')->group(function () {
 
     /*
     |--------------------------------------------------------------------------
+    | Settings (Process Targets)
+    |--------------------------------------------------------------------------
+    */
+    Route::get('/settings', [\App\Http\Controllers\SettingController::class, 'index'])->name('settings.index');
+    Route::post('/settings', [\App\Http\Controllers\SettingController::class, 'updateTargets'])->name('settings.update');
+
+    /*
+    |--------------------------------------------------------------------------
     | Audit Logs (MR & Direktur Only)
     |--------------------------------------------------------------------------
     */
@@ -191,7 +199,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/search/heat-numbers', [\App\Http\Controllers\AutocompleteController::class, 'searchHeatNumbers'])->name('search.heat_numbers');
         Route::get('/item-stats/{code}', [\App\Http\Controllers\AutocompleteController::class, 'getItemStats'])->name('item.stats');
 
-        Route::post('/sync', [\App\Http\Controllers\ManualSyncController::class, 'sync'])->name('manual.sync');
+        Route::any('/sync', [\App\Http\Controllers\ManualSyncController::class, 'sync'])->name('manual.sync');
 
         // Context Switcher
         Route::get('/context/departments', [\App\Http\Controllers\ContextSwitcherController::class, 'getDepartments'])->name('context.departments');

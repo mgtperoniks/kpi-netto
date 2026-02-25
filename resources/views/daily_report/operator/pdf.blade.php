@@ -124,7 +124,7 @@
                 <th class="col-shift">SF</th>
                 <th class="col-op">Operator</th>
                 <th class="col-mc">Mesin</th>
-                <th class="col-item">Item & Heat No</th>
+                <th class="col-item">Pekerjaan</th>
                 <th class="col-time">Jam Kerja</th>
                 <th class="col-num">Target</th>
                 <th class="col-num">Aktual</th>

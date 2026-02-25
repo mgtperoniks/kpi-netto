@@ -50,11 +50,20 @@ class AutocompleteController extends Controller
             return response()->json([]);
         }
 
-        $operators = MdOperatorMirror::where('status', 'active')
-            ->where(function ($q) use ($query) {
-                $q->where('code', 'like', "%{$query}%")
-                    ->orWhere('name', 'like', "%{$query}%");
-            })
+        $activeDepartment = session('selected_department_code', auth()->user()->department_code);
+
+        $queryBuilder = MdOperatorMirror::where('status', 'active');
+
+        // Buka pencarian untuk semua operator Netto jika departemen aktif adalah Netto
+        if (str_starts_with($activeDepartment, '403.')) {
+            $queryBuilder->withoutGlobalScope(\App\Models\Scopes\DepartmentScope::class)
+                ->where('department_code', 'like', '403.%');
+        }
+
+        $operators = $queryBuilder->where(function ($q) use ($query) {
+            $q->where('code', 'like', "%{$query}%")
+                ->orWhere('name', 'like', "%{$query}%");
+        })
             ->orderBy('employment_seq') // Prioritaskan urutan kerja jika ada
             ->limit(20)
             ->get(['code', 'name']);

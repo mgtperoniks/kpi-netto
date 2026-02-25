@@ -58,6 +58,7 @@ class ProductionLog extends Model
 
     public function operator()
     {
-        return $this->belongsTo(MdOperatorMirror::class, 'operator_code', 'code');
+        return $this->belongsTo(MdOperatorMirror::class, 'operator_code', 'code')
+            ->withoutGlobalScope(\App\Models\Scopes\DepartmentScope::class);
     }
 }

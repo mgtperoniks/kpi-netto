@@ -25,7 +25,7 @@ class PullMasterItems extends Command
 
                 foreach ($items as $item) {
 
-                    $mirror = MdItemMirror::where('code', $item->code)->first();
+                    $mirror = MdItemMirror::withoutGlobalScopes()->where('code', $item->code)->first();
 
                     if (
                         $mirror &&
@@ -35,7 +35,7 @@ class PullMasterItems extends Command
                         continue; // tidak ada perubahan
                     }
 
-                    MdItemMirror::updateOrCreate(
+                    MdItemMirror::withoutGlobalScopes()->updateOrCreate(
                         ['code' => $item->code],
                         [
                             'name' => $item->name,

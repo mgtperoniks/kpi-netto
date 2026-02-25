@@ -131,8 +131,10 @@
                     <td>
                         {{ $row->item->name ?? $row->item_code }}
                         @if($row->size) <span style="color: #666; font-size: 8pt;">({{ $row->size }})</span> @endif
-                        @if($row->remark) <br><br> <span style="color: red; font-weight: bold;">{{ $row->remark }}</span>
-                        @endif
+                        @if($row->remark) <br> <span
+                        style="color: red; font-weight: bold; font-size: 8pt;">{{ $row->remark }}</span> @endif
+                        @if($row->note) <br> <span
+                        style="color: blue; font-weight: bold; font-size: 8pt;">{{ $row->note }}</span> @endif
                     </td>
                     <td class="text-right">
                         {{ number_format($row->work_hours, 2) }}

@@ -11,14 +11,14 @@ use Carbon\Carbon;
 class ExportDailyKpiCsv extends Command
 {
     protected $signature = 'kpi:export-csv {date?}';
-    protected $description = 'Export KPI harian Bubut ke CSV (KPI Contract v1)';
+    protected $description = 'Export KPI harian Netto ke CSV (KPI Contract v1)';
 
     public function handle()
     {
         $date = $this->argument('date')
             ?? Carbon::yesterday()->toDateString();
 
-        $filename = "kpi_bubut_{$date}.csv";
+        $filename = "kpi_netto_{$date}.csv";
         $path = "exports/{$filename}";
 
         $rows = [];
@@ -40,7 +40,7 @@ class ExportDailyKpiCsv extends Command
         foreach ($operators as $op) {
             $rows[] = [
                 $date,
-                'BUBUT',
+                'NETTO',
                 'OPERATOR',
                 $op->operator_code,
                 $op->kpi_percent,
@@ -55,7 +55,7 @@ class ExportDailyKpiCsv extends Command
         foreach ($machines as $mc) {
             $rows[] = [
                 $date,
-                'BUBUT',
+                'NETTO',
                 'MACHINE',
                 $mc->machine_code,
                 $mc->kpi_percent,

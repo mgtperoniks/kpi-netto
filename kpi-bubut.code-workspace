@@ -1,10 +1,13 @@
 {
 	"folders": [
 		{
-			"path": "."
+			"path": "../kpi-bubut"
 		},
 		{
 			"path": "../masterdataKPI"
+		},
+		{
+			"path": "."
 		}
 	],
 	"settings": {}

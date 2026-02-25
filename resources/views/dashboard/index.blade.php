@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
-@section('title', 'Dashboard KPI Bubut')
+@section('title', 'Dashboard KPI Netto')
 
 @section('content')
     {{-- Header Content --}}
     <div class="mb-6 flex justify-between items-center">
         <div>
-            <h1 class="text-2xl font-bold text-gray-800">Departemen Bubut</h1>
+            <h1 class="text-2xl font-bold text-gray-800">Departemen Netto</h1>
             <p class="text-sm text-gray-500">Sistem Tracking & Input KPI</p>
         </div>
         <div class="text-right">
@@ -20,9 +20,9 @@
     </div>
 
     {{-- Info / Catatan --}}
-    <div class="bg-blue-50 border border-blue-100 p-4 rounded-xl flex gap-3 mb-6">
-        <span class="material-icons-round text-blue-500 text-sm mt-0.5">info</span>
-        <p class="text-xs text-blue-800 leading-relaxed">
+    <div class="bg-emerald-50 border border-emerald-100 p-4 rounded-xl flex gap-3 mb-6">
+        <span class="material-icons-round text-emerald-500 text-sm mt-0.5">info</span>
+        <p class="text-xs text-emerald-800 leading-relaxed">
             <span class="font-bold">Catatan:</span> Data yang ditampilkan adalah rekapitulasi tanggal
             <span class="font-bold">{{ \Carbon\Carbon::parse($date)->translatedFormat('d F Y') }}</span>.
         </p>
@@ -34,7 +34,8 @@
         {{-- Card: Target Harian --}}
         <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
             <div class="flex justify-between items-start mb-2">
-                <span class="material-icons-round text-blue-500 bg-blue-50 p-2 rounded-lg text-xl">track_changes</span>
+                <span
+                    class="material-icons-round text-emerald-500 bg-emerald-50 p-2 rounded-lg text-xl">track_changes</span>
             </div>
             <p class="text-[10px] text-slate-500 font-medium uppercase tracking-wide">Target Harian</p>
             <div class="flex items-baseline gap-1 mt-1">
@@ -97,7 +98,7 @@
         {{-- Card: Overall KPI --}}
         <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
             <div class="flex justify-between items-start mb-2">
-                <span class="material-icons-round text-teal-500 bg-teal-50 p-2 rounded-lg text-xl">donut_large</span>
+                <span class="material-icons-round text-emerald-500 bg-emerald-50 p-2 rounded-lg text-xl">donut_large</span>
             </div>
             <p class="text-[10px] text-slate-500 font-medium uppercase tracking-wide">Overall KPI</p>
             <div class="flex items-baseline gap-1 mt-1">
@@ -106,7 +107,7 @@
                 </h3>
             </div>
             <div
-                class="mt-3 flex items-center gap-1 text-xs {{ $overallKpi >= 90 ? 'text-teal-600' : 'text-orange-500' }} font-bold">
+                class="mt-3 flex items-center gap-1 text-xs {{ $overallKpi >= 90 ? 'text-emerald-600' : 'text-orange-500' }} font-bold">
                 <span class="material-icons-round text-[14px]">insights</span>
                 <span>{{ $overallKpi >= 90 ? 'On Track' : 'Need Improvement' }}</span>
             </div>
@@ -253,7 +254,7 @@
                         {
                             label: 'Aktual',
                             data: wActual,
-                            backgroundColor: '#1e40af',
+                            backgroundColor: '#10b981',
                             borderRadius: 4,
                             barPercentage: 0.7
                         },
@@ -320,7 +321,7 @@
 
             // Dynamic Colors Helper
             const lineColors = [
-                '#2563eb', // Blue
+                '#059669', // Blue
                 '#db2777', // Pink
                 '#16a34a', // Green
                 '#d97706', // Amber

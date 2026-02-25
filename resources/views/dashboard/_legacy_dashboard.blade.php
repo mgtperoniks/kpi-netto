@@ -4,35 +4,35 @@
     $date = $date ?? now()->format('d-m-Y');
 
     $avgKpiOperator = $avgKpiOperator ?? 0;
-    $avgKpiMachine  = $avgKpiMachine ?? 0;
-    $totalOutput    = $totalOutput ?? 0;
-    $totalDowntime  = $totalDowntime ?? 0;
+    $avgKpiMachine = $avgKpiMachine ?? 0;
+    $totalOutput = $totalOutput ?? 0;
+    $totalDowntime = $totalDowntime ?? 0;
     $activeOperators = $activeOperators ?? 0;
-    $activeMachines  = $activeMachines ?? 0;
+    $activeMachines = $activeMachines ?? 0;
 @endphp
 
 @if(isset($empty) && $empty)
 
-    <x-card title="Dashboard KPI Bubut">
+    <x-card title="Dashboard KPI Netto">
         <p class="text-gray-500">Belum ada data KPI.</p>
     </x-card>
 
 @else
 
-    <x-card title="Dashboard KPI Bubut ({{ $date }})">
+    <x-card title="Dashboard KPI Netto ({{ $date }})">
 
         <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-6">
 
             {{-- Avg KPI Operator --}}
             <div class="kpi-card
-                {{ $avgKpiOperator >= 100 ? 'ok' : ($avgKpiOperator >= 90 ? 'warning' : 'bad') }}">
+                    {{ $avgKpiOperator >= 100 ? 'ok' : ($avgKpiOperator >= 90 ? 'warning' : 'bad') }}">
                 <div class="label">Avg KPI Operator</div>
                 <div class="value">{{ number_format($avgKpiOperator, 1) }}%</div>
             </div>
 
             {{-- Avg KPI Mesin --}}
             <div class="kpi-card
-                {{ $avgKpiMachine >= 100 ? 'ok' : ($avgKpiMachine >= 90 ? 'warning' : 'bad') }}">
+                    {{ $avgKpiMachine >= 100 ? 'ok' : ($avgKpiMachine >= 90 ? 'warning' : 'bad') }}">
                 <div class="label">Avg KPI Mesin</div>
                 <div class="value">{{ number_format($avgKpiMachine, 1) }}%</div>
             </div>

@@ -207,10 +207,10 @@
                     <div class="space-y-1.5">
                         <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Capaian</label>
                         <div class="w-full rounded-xl text-center font-bold text-lg p-3 border" :class="{
-                                                                'bg-emerald-50 text-emerald-600 border-emerald-200': achievement >= 100,
-                                                                'bg-amber-50 text-amber-600 border-amber-200': achievement >= 80 && achievement < 100,
-                                                                'bg-red-50 text-red-600 border-red-200': achievement < 80
-                                                            }">
+                                                                    'bg-emerald-50 text-emerald-600 border-emerald-200': achievement >= 100,
+                                                                    'bg-amber-50 text-amber-600 border-amber-200': achievement >= 80 && achievement < 100,
+                                                                    'bg-red-50 text-red-600 border-red-200': achievement < 80
+                                                                }">
                             <span x-text="achievement + '%'">0%</span>
                         </div>
                     </div>
@@ -243,7 +243,7 @@
                     <span class="material-icons-round text-[20px]">close</span>
                     Batal
                 </a>
-                <button type="button" @click="confirmUpdate" style="background:#2563eb"
+                <button type="button" @click="confirmUpdate" style="background:#059669"
                     class="py-4 text-white font-bold rounded-2xl flex items-center justify-center gap-2 hover:opacity-90 active:scale-[0.98] transition-all shadow-lg">
                     <span class="material-icons-round text-[20px]">save</span>
                     Simpan Perubahan
@@ -306,7 +306,7 @@
                         showCancelButton: true,
                         confirmButtonText: 'Ya, Simpan',
                         cancelButtonText: 'Batal',
-                        confirmButtonColor: '#2563eb',
+                        confirmButtonColor: '#059669',
                         cancelButtonColor: '#dc2626',
                         reverseButtons: true,
                     }).then((result) => {

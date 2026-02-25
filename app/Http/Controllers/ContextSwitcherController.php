@@ -21,7 +21,7 @@ class ContextSwitcherController extends Controller
         if (in_array($user->role, ['direktur', 'mr', 'hr_admin', 'hr_manager', 'guest']) || $isSpecialHr) {
             $departments = \Illuminate\Support\Facades\DB::connection('master')
                 ->table('md_departments')
-                ->where('code', 'LIKE', '404%')
+                ->whereIn('code', ['403.1.1', '403.2.1', '403.4.1'])
                 ->where('status', 'active')
                 ->orderBy('code')
                 ->get(['code', 'name']);
