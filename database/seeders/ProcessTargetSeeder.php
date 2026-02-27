@@ -39,28 +39,28 @@ class ProcessTargetSeeder extends Seeder
 
         // Insert unique processes for Flange (403.1.1)
         foreach ($flangeProcesses as $process) {
-            DB::table('process_targets')->updateOrInsert(
-                [
-                    'department_code' => '403.1.1',
-                    'process_name' => $process,
-                    'month' => date('n'),
-                    'year' => date('Y')
-                ],
-                ['target_qty' => 0, 'created_at' => now(), 'updated_at' => now()]
-            );
+            DB::table('process_targets')->insertOrIgnore([
+                'department_code' => '403.1.1',
+                'process_name' => $process,
+                'month' => date('n'),
+                'year' => date('Y'),
+                'target_qty' => 0,
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
         }
 
         // Insert unique processes for Fitting (403.2.1)
         foreach ($fittingProcesses as $process) {
-            DB::table('process_targets')->updateOrInsert(
-                [
-                    'department_code' => '403.2.1',
-                    'process_name' => $process,
-                    'month' => date('n'),
-                    'year' => date('Y')
-                ],
-                ['target_qty' => 0, 'created_at' => now(), 'updated_at' => now()]
-            );
+            DB::table('process_targets')->insertOrIgnore([
+                'department_code' => '403.2.1',
+                'process_name' => $process,
+                'month' => date('n'),
+                'year' => date('Y'),
+                'target_qty' => 0,
+                'created_at' => now(),
+                'updated_at' => now()
+            ]);
         }
     }
 }
