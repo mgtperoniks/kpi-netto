@@ -34,6 +34,7 @@ class ProcessTargetSeeder extends Seeder
             'BOR FITTING PF',
             'BLASTING PF',
             'GERINDA FLAP PF',
+            'POTONG RESIBON PF',
         ];
 
         // Insert unique processes for Flange (403.1.1)

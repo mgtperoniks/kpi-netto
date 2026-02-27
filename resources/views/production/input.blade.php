@@ -189,15 +189,6 @@
                         <select name="remark"
                             class="w-full bg-slate-50 border-slate-200 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 text-sm p-3 font-medium text-slate-700">
                             <option value="" selected>Normal (Selesai)</option>
-                            <option value="K1-1 sisi">K1-1 sisi</option>
-                            <option value="K1-2 sisi">K1-2 sisi</option>
-                            <option value="K1- Finish ID">K1- Finish ID</option>
-                            <option value="Finish 1 sisi">Finish 1 sisi</option>
-                            <option value="FINISH KASARAN">FINISH KASARAN</option>
-                            <option value="K1,K2">K1,K2</option>
-                            <option value="KOD,FOD,K1,K2,FID">KOD,FOD,K1,K2,FID</option>
-                            <option value="K1,K2,FOD">K1,K2,FOD</option>
-                            <option value="KID,FID">KID,FID</option>
                         </select>
                     </div>
 
@@ -206,10 +197,10 @@
                         <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Capaian</label>
                         <div class="w-full rounded-xl text-center font-bold text-lg p-3 border"
                             :class="{
-                                                                                                                                    'bg-emerald-50 text-emerald-600 border-emerald-200': achievement >= 100,
-                                                                                                                                    'bg-amber-50 text-amber-600 border-amber-200': achievement >= 80 && achievement < 100,
-                                                                                                                                    'bg-red-50 text-red-600 border-red-200': achievement < 80
-                                                                                                                                }">
+                                                                                                                                        'bg-emerald-50 text-emerald-600 border-emerald-200': achievement >= 100,
+                                                                                                                                        'bg-amber-50 text-amber-600 border-amber-200': achievement >= 80 && achievement < 100,
+                                                                                                                                        'bg-red-50 text-red-600 border-red-200': achievement < 80
+                                                                                                                                    }">
                             <span x-text="achievement + '%'">0%</span>
                         </div>
                     </div>
@@ -405,29 +396,29 @@
                 showConfirmationSummary() {
 
                     const summaryHtml = `
-                                                                                <div class="text-left text-sm text-slate-600 space-y-2 bg-slate-50 p-4 rounded-xl border border-slate-200">
-                                                                                    <div class="flex justify-between border-b border-slate-200 pb-2">
-                                                                                        <span class="font-medium">Operator:</span>
-                                                                                        <span class="font-bold text-slate-800">${this.selectedOperatorName}</span>
+                                                                                    <div class="text-left text-sm text-slate-600 space-y-2 bg-slate-50 p-4 rounded-xl border border-slate-200">
+                                                                                        <div class="flex justify-between border-b border-slate-200 pb-2">
+                                                                                            <span class="font-medium">Operator:</span>
+                                                                                            <span class="font-bold text-slate-800">${this.selectedOperatorName}</span>
+                                                                                        </div>
+                                                                                        <div class="flex justify-between border-b border-slate-200 pb-2">
+                                                                                            <span class="font-medium">Mesin:</span>
+                                                                                            <span class="font-bold text-slate-800">${this.machineSearch}</span>
+                                                                                        </div>
+                                                                                        <div class="flex justify-between border-b border-slate-200 pb-2">
+                                                                                            <span class="font-medium">Proses:</span>
+                                                                                            <span class="font-bold text-slate-800">${this.selectedProcessName}</span>
+                                                                                        </div>
+                                                                                        <div class="flex justify-between border-b border-slate-200 pb-2">
+                                                                                            <span class="font-medium">Waktu:</span>
+                                                                                            <span class="font-bold text-slate-800">${this.timeStart} - ${this.timeEnd}</span>
+                                                                                        </div>
+                                                                                        <div class="flex justify-between pt-1">
+                                                                                            <span class="font-medium">Hasil Output:</span>
+                                                                                            <span class="font-bold text-emerald-600 text-lg">${this.actualQty} PCS</span>
+                                                                                        </div>
                                                                                     </div>
-                                                                                    <div class="flex justify-between border-b border-slate-200 pb-2">
-                                                                                        <span class="font-medium">Mesin:</span>
-                                                                                        <span class="font-bold text-slate-800">${this.machineSearch}</span>
-                                                                                    </div>
-                                                                                    <div class="flex justify-between border-b border-slate-200 pb-2">
-                                                                                        <span class="font-medium">Proses:</span>
-                                                                                        <span class="font-bold text-slate-800">${this.selectedProcessName}</span>
-                                                                                    </div>
-                                                                                    <div class="flex justify-between border-b border-slate-200 pb-2">
-                                                                                        <span class="font-medium">Waktu:</span>
-                                                                                        <span class="font-bold text-slate-800">${this.timeStart} - ${this.timeEnd}</span>
-                                                                                    </div>
-                                                                                    <div class="flex justify-between pt-1">
-                                                                                        <span class="font-medium">Hasil Output:</span>
-                                                                                        <span class="font-bold text-emerald-600 text-lg">${this.actualQty} PCS</span>
-                                                                                    </div>
-                                                                                </div>
-                                                                            `;
+                                                                                `;
 
                     Swal.fire({
                         title: 'Verifikasi Data',

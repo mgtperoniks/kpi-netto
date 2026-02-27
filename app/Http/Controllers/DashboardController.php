@@ -67,21 +67,23 @@ class DashboardController extends Controller
             ->orderBy('production_date')
             ->get();
 
-        // B. Production by Line (Last 7 Active Days) - DYNAMIC LINES
-        $productionByLine = \App\Models\ProductionLog::selectRaw('production_date, line, SUM(actual_qty) as total_qty')
+        // B. Production by Process (Last 7 Active Days)
+        $activeDepartment = session('selected_department_code', auth()->user()->department_code);
+
+        $productionByLine = \App\Models\ProductionLog::selectRaw('production_date, item_code as process_name, SUM(actual_qty) as total_qty')
             ->whereIn('production_date', $activeDates)
-            ->whereNotNull('line')
-            ->groupBy('production_date', 'line')
+            ->where('department_code', $activeDepartment)
+            ->groupBy('production_date', 'item_code')
             ->orderBy('production_date')
             ->get();
 
-        // Transform for Chart.js: [ '2023-01-01' => ['Line 1' => 100, 'Line 2' => 50] ]
+        // Transform for Chart.js: [ '2023-01-01' => ['Process 1' => 100, 'Process 2' => 50] ]
         $lineChartData = [];
         $allLines = [];
 
         foreach ($productionByLine as $record) {
             $d = $record->production_date;
-            $l = $record->line;
+            $l = strtoupper($record->process_name); // Process names are stored in lowercase
             $q = (int) $record->total_qty;
 
             if (!isset($lineChartData[$d])) {
@@ -93,7 +95,7 @@ class DashboardController extends Controller
                 $allLines[] = $l;
             }
         }
-        sort($allLines); // Ensure consistent order (Line 1, Line 2...)
+        sort($allLines); // Ensure consistent order (Process 1, Process 2...)
 
         // C. Top 3 Reject Reasons (Current Month)
         // Note: RejectLog uses 'reject_date'

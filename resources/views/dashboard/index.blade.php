@@ -135,10 +135,10 @@
             {{-- Line Production Chart --}}
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
                 <div class="flex justify-between items-center mb-6">
-                    <h4 class="text-sm font-bold text-slate-800">Produksi per Line (PCS)</h4>
+                    <h4 class="text-sm font-bold text-slate-800">Produksi per Pekerjaan (PCS)</h4>
                     <span class="material-icons-round text-slate-400">show_chart</span>
                 </div>
-                {{-- NOTE: Line data not yet split in backend, using placeholder line chart based on total --}}
+                {{-- Data grouped by process_name (item_code) --}}
                 <div class="relative h-64 w-full">
                     <canvas id="lineProductionChart"></canvas>
                 </div>
