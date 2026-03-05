@@ -144,6 +144,17 @@
             </tr>
         </thead>
         <tbody>
+            @php
+                $opTotals = [];
+                foreach ($rows as $r) {
+                    $op = $r->operator_code;
+                    if (!isset($opTotals[$op])) {
+                        $opTotals[$op] = ['actual' => 0, 'target' => 0];
+                    }
+                    $opTotals[$op]['actual'] += $r->actual_qty;
+                    $opTotals[$op]['target'] += $r->target_qty;
+                }
+            @endphp
             @foreach($rows as $row)
                 <tr>
                     <td class="text-center">{{ $row->shift }}</td>
@@ -178,8 +189,21 @@
                                 $class = 'kpi-good';
                             elseif ($row->achievement_percent >= 85)
                                 $class = 'kpi-mid';
+
+                            $opTotal = $opTotals[$row->operator_code];
+                            $opAvg = $opTotal['target'] > 0 ? round(($opTotal['actual'] / $opTotal['target']) * 100, 2) : 0;
+                            $avgClass = 'kpi-bad';
+                            if ($opAvg >= 100)
+                                $avgClass = 'kpi-good';
+                            elseif ($opAvg >= 85)
+                                $avgClass = 'kpi-mid';
                         @endphp
                         <span class="{{ $class }}">{{ $row->achievement_percent }}%</span>
+                        <div style="margin-top: 4px; border-top: 1px dotted #ccc; padding-top: 4px;">
+                            <span style="font-size: 7.5pt; color: #888;">Rata2 Harian</span><br>
+                            <span class="{{ $avgClass }}"
+                                style="font-size: 8.5pt;">{{ number_format($opAvg, 2, '.', '') }}%</span>
+                        </div>
                     </td>
                 </tr>
             @endforeach
