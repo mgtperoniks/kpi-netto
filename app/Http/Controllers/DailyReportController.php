@@ -69,14 +69,53 @@ class DailyReportController extends Controller
             ->orderBy('production_date', 'desc')
             ->get();
 
-        // Calculate lock status for each date
-        $dates->transform(function ($item) {
+        $activeDepartment = session('selected_department_code', auth()->user()->department_code);
+
+        // Calculate lock status and distribution metrics for each date
+        $dates->transform(function ($item) use ($activeDepartment) {
             $item->is_locked = \App\Services\DateLockService::isLocked($item->production_date);
+
+            // Fetch specific distribution metrics for this date
+            if ($activeDepartment === '403.1.1') {
+                $dist = ProductionLog::where('production_date', $item->production_date)
+                    ->where('item_code', 'distribusi fl')
+                    ->selectRaw('SUM(actual_qty) as actual, SUM(target_qty) as target')
+                    ->first();
+
+                $item->distribusi_fl = [
+                    'actual' => $dist->actual ?? 0,
+                    'target' => $dist->target ?? 0
+                ];
+            } elseif ($activeDepartment === '403.2.1') {
+                // PF
+                $distPf = ProductionLog::where('production_date', $item->production_date)
+                    ->where('item_code', 'distribusi pf')
+                    ->selectRaw('SUM(actual_qty) as actual, SUM(target_qty) as target')
+                    ->first();
+
+                $item->distribusi_pf = [
+                    'actual' => $distPf->actual ?? 0,
+                    'target' => $distPf->target ?? 0
+                ];
+
+                // Flange Fitting
+                $distFf = ProductionLog::where('production_date', $item->production_date)
+                    ->where('item_code', 'distribusi flange fitting')
+                    ->selectRaw('SUM(actual_qty) as actual, SUM(target_qty) as target')
+                    ->first();
+
+                $item->distribusi_ff = [
+                    'actual' => $distFf->actual ?? 0,
+                    'target' => $distFf->target ?? 0
+                ];
+            }
+
             return $item;
         });
 
         return view('daily_report.operator.index', [
             'dates' => $dates,
+            'activeDepartment' => $activeDepartment,
         ]);
     }
 

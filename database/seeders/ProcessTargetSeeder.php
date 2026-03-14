@@ -21,6 +21,7 @@ class ProcessTargetSeeder extends Seeder
             'POTONG FL',
             'GERINDA KASAR FL',
             'LAS ARGON FL',
+            'Distribusi FL',
         ];
 
         // Netto Fitting (403.2.1)
@@ -35,6 +36,8 @@ class ProcessTargetSeeder extends Seeder
             'BLASTING PF',
             'GERINDA FLAP PF',
             'POTONG RESIBON PF',
+            'Distribusi PF',
+            'Distribusi Flange Fitting',
         ];
 
         // Insert unique processes for Flange (403.1.1)

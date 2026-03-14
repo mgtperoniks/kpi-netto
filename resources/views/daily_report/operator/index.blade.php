@@ -41,6 +41,35 @@
                     </div>
 
                     <div class="flex items-center gap-6 text-right">
+                        {{-- DISTRIBUTION METRICS --}}
+                        @if($activeDepartment === '403.1.1')
+                            <div>
+                                <p class="text-[10px] text-gray-400 uppercase tracking-wider font-semibold">Total Distribusi</p>
+                                <p class="text-sm font-bold text-gray-800">
+                                    {{ number_format($row->distribusi_fl['actual']) }} / {{ number_format($row->distribusi_fl['target']) }}
+                                    <span class="text-[10px] font-normal text-gray-500">pcs</span>
+                                </p>
+                            </div>
+                            <div class="w-px h-8 bg-gray-100"></div>
+                        @elseif($activeDepartment === '403.2.1')
+                            <div>
+                                <p class="text-[10px] text-gray-400 uppercase tracking-wider font-semibold">Total Distribusi PF</p>
+                                <p class="text-sm font-bold text-gray-800">
+                                    {{ number_format($row->distribusi_pf['actual']) }} / {{ number_format($row->distribusi_pf['target']) }}
+                                    <span class="text-[10px] font-normal text-gray-500">pcs</span>
+                                </p>
+                            </div>
+                            <div class="w-px h-8 bg-gray-100"></div>
+                            <div>
+                                <p class="text-[10px] text-gray-400 uppercase tracking-wider font-semibold">Total Distribusi FF</p>
+                                <p class="text-sm font-bold text-gray-800">
+                                    {{ number_format($row->distribusi_ff['actual']) }} / {{ number_format($row->distribusi_ff['target']) }}
+                                    <span class="text-[10px] font-normal text-gray-500">pcs</span>
+                                </p>
+                            </div>
+                            <div class="w-px h-8 bg-gray-100"></div>
+                        @endif
+
                         <div>
                             <p class="text-[10px] text-gray-400 uppercase tracking-wider font-semibold">Total Output</p>
                             <p class="text-sm font-bold text-gray-800">
