@@ -156,6 +156,23 @@ Route::middleware('auth')->group(function () {
 
     /*
     |--------------------------------------------------------------------------
+    | HR Report
+    |--------------------------------------------------------------------------
+    | Monitoring anomali, issue harian, dan tindak lanjut perbaikan.
+    */
+    Route::prefix('hr-report')->name('hr_report.')->group(function () {
+        Route::get('/', [\App\Http\Controllers\HrReportController::class, 'index'])->name('index');
+        Route::get('/create', [\App\Http\Controllers\HrReportController::class, 'create'])->name('create');
+        Route::post('/store', [\App\Http\Controllers\HrReportController::class, 'store'])->name('store');
+        Route::get('/{id}', [\App\Http\Controllers\HrReportController::class, 'show'])->name('show');
+        Route::get('/{id}/edit', [\App\Http\Controllers\HrReportController::class, 'edit'])->name('edit');
+        Route::put('/{id}', [\App\Http\Controllers\HrReportController::class, 'update'])->name('update');
+        Route::delete('/{id}', [\App\Http\Controllers\HrReportController::class, 'destroy'])->name('destroy');
+        Route::get('/{id}/pdf', [\App\Http\Controllers\HrReportController::class, 'exportPdf'])->name('pdf');
+    });
+
+    /*
+    |--------------------------------------------------------------------------
     | Export
     |--------------------------------------------------------------------------
     */
