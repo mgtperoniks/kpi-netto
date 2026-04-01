@@ -48,10 +48,13 @@ sudo docker compose exec db mysqldump -u root -p[PASSWORD] kpi_bubut > /home/per
 ### STEP 3: Pull & Update di Server
 
 ```bash
-cd /srv/docker/apps/kpi-bubut
+cd /srv/docker/apps/kpi-netto
 
 # Pull kode terbaru
 sudo git pull origin main
+
+# Rebuild container (jika ada perubahan Dockerfile/assets atau perubahan tidak muncul)
+sudo docker compose up --build -d
 
 # Clear semua cache
 sudo docker compose exec app php artisan config:clear
