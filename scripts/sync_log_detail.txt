@@ -420,3 +420,60 @@ mysqldump: [Warning] Using a password on the command line interface can be insec
 [2026-03-31 16:30:05] [SUCCESS]    SINKRONISASI NETTO SELESAI - DATA TERBARU!
 [2026-03-31 16:30:05] [INFO] ============================================
 [2026-03-31 16:30:05] [INFO] 
+[2026-04-01 16:30:02] [INFO] ============================================
+[2026-04-01 16:30:02] [INFO]    PRODUCTION TO LOCAL DB SYNC SCRIPT (NETTO)
+[2026-04-01 16:30:02] [INFO] ============================================
+[2026-04-01 16:30:02] [INFO] 
+[2026-04-01 16:30:02] [INFO] >>> SINKRONISASI DATABASE: kpi_netto
+[2026-04-01 16:30:02] [INFO] Mengekspor kpi_netto dari container masterdatakpi-db di server...
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+[2026-04-01 16:30:03] [INFO] Mendownload prod_kpi_netto_20260401_163002.sql...
+[2026-04-01 16:30:03] [INFO] Menginput data ke MySQL Lokal (Laragon)...
+[2026-04-01 16:30:03] [INFO] Menjalankan import menggunakan CMD redirection...
+[2026-04-01 16:30:06] [SUCCESS] Sinkronisasi kpi_netto SELESAI!
+[2026-04-01 16:30:06] [INFO] Membersihkan file temporary di server...
+[2026-04-01 16:30:06] [INFO] 
+[2026-04-01 16:30:06] [INFO] Membersihkan backup lama di lokal ( > 7 hari)...
+[2026-04-01 16:30:06] [INFO] 
+[2026-04-01 16:30:06] [INFO] ============================================
+[2026-04-01 16:30:06] [SUCCESS]    SINKRONISASI NETTO SELESAI - DATA TERBARU!
+[2026-04-01 16:30:06] [INFO] ============================================
+[2026-04-01 16:30:06] [INFO] 
+[2026-04-02 16:30:02] [INFO] ============================================
+[2026-04-02 16:30:02] [INFO]    PRODUCTION TO LOCAL DB SYNC SCRIPT (NETTO)
+[2026-04-02 16:30:02] [INFO] ============================================
+[2026-04-02 16:30:02] [INFO] 
+[2026-04-02 16:30:02] [INFO] >>> SINKRONISASI DATABASE: kpi_netto
+[2026-04-02 16:30:02] [INFO] Mengekspor kpi_netto dari container masterdatakpi-db di server...
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+[2026-04-02 16:30:03] [INFO] Mendownload prod_kpi_netto_20260402_163002.sql...
+[2026-04-02 16:30:03] [INFO] Menginput data ke MySQL Lokal (Laragon)...
+[2026-04-02 16:30:03] [INFO] Menjalankan import menggunakan CMD redirection...
+[2026-04-02 16:30:05] [SUCCESS] Sinkronisasi kpi_netto SELESAI!
+[2026-04-02 16:30:05] [INFO] Membersihkan file temporary di server...
+[2026-04-02 16:44:47] [INFO] 
+[2026-04-02 16:44:47] [INFO] Membersihkan backup lama di lokal ( > 7 hari)...
+[2026-04-02 16:44:47] [INFO] 
+[2026-04-02 16:44:47] [INFO] ============================================
+[2026-04-02 16:44:47] [SUCCESS]    SINKRONISASI NETTO SELESAI - DATA TERBARU!
+[2026-04-02 16:44:47] [INFO] ============================================
+[2026-04-02 16:44:47] [INFO] 
+[2026-04-03 16:30:02] [INFO] ============================================
+[2026-04-03 16:30:02] [INFO]    PRODUCTION TO LOCAL DB SYNC SCRIPT (NETTO)
+[2026-04-03 16:30:02] [INFO] ============================================
+[2026-04-03 16:30:02] [INFO] 
+[2026-04-03 16:30:02] [INFO] >>> SINKRONISASI DATABASE: kpi_netto
+[2026-04-03 16:30:02] [INFO] Mengekspor kpi_netto dari container masterdatakpi-db di server...
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+[2026-04-03 16:30:03] [INFO] Mendownload prod_kpi_netto_20260403_163002.sql...
+[2026-04-03 16:30:04] [INFO] Menginput data ke MySQL Lokal (Laragon)...
+[2026-04-03 16:30:04] [INFO] Menjalankan import menggunakan CMD redirection...
+[2026-04-03 16:30:05] [SUCCESS] Sinkronisasi kpi_netto SELESAI!
+[2026-04-03 16:30:05] [INFO] Membersihkan file temporary di server...
+[2026-04-03 16:30:05] [INFO] 
+[2026-04-03 16:30:05] [INFO] Membersihkan backup lama di lokal ( > 7 hari)...
+[2026-04-03 16:30:05] [INFO] 
+[2026-04-03 16:30:05] [INFO] ============================================
+[2026-04-03 16:30:05] [SUCCESS]    SINKRONISASI NETTO SELESAI - DATA TERBARU!
+[2026-04-03 16:30:05] [INFO] ============================================
+[2026-04-03 16:30:05] [INFO] 
