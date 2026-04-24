@@ -139,8 +139,15 @@ Route::middleware('auth')->group(function () {
             Route::put('/update/{id}', [\App\Http\Controllers\DailyReportController::class, 'operatorUpdate'])->name('update');
             Route::delete('/destroy/{id}', [\App\Http\Controllers\DailyReportController::class, 'operatorDestroy'])->name('destroy');
             Route::get('/pdf/{date}', [\App\Http\Controllers\DailyReportController::class, 'operatorExportPdf'])->name('pdf');
-            // Locking
+            // Re-use lock toggle as it is date-based
             Route::post('/toggle-lock', [\App\Http\Controllers\DailyReportController::class, 'toggleLock'])->name('toggle_lock');
+        });
+
+        Route::prefix('reject')->name('reject.')->group(function () {
+            Route::get('/', [\App\Http\Controllers\DailyReportController::class, 'rejectIndex'])->name('index');
+            Route::get('/show/{date}', [\App\Http\Controllers\DailyReportController::class, 'rejectShow'])->name('show');
+            Route::delete('/destroy/{id}', [\App\Http\Controllers\DailyReportController::class, 'rejectDestroy'])->name('destroy');
+            Route::get('/pdf/{date}', [\App\Http\Controllers\DailyReportController::class, 'rejectExportPdf'])->name('pdf');
         });
 
         Route::prefix('downtime')->name('downtime.')->group(function () {
@@ -178,7 +185,7 @@ Route::middleware('auth')->group(function () {
     */
     Route::prefix('export')->name('export.')->group(function () {
 
-        Route::get('/operator', [ExportController::class, 'operatorKpi'])
+        Route::get('/operator/{date?}', [ExportController::class, 'operatorKpi'])
             ->name('operator');
 
         Route::get('/machine/{date}', [ExportController::class, 'machineKpi'])

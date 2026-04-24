@@ -193,6 +193,14 @@
             <span class="font-medium">Operator</span>
         </a>
 
+        <a href="{{ route('daily_report.reject.index') }}"
+            class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors {{ request()->routeIs('daily_report.reject.*') ? 'bg-emerald-600 text-white shadow-lg' : 'text-emerald-100 hover:bg-white/5 hover:text-white' }}">
+            <div class="w-6 flex justify-center">
+                <span class="material-icons-round text-xl">error_outline</span>
+            </div>
+            <span class="font-medium">Reject</span>
+        </a>
+
         <a href="{{ route('daily_report.downtime.index') }}"
             class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors {{ request()->routeIs('daily_report.downtime.*') ? 'bg-emerald-600 text-white shadow-lg' : 'text-emerald-100 hover:bg-white/5 hover:text-white' }}">
             <div class="w-6 flex justify-center">
