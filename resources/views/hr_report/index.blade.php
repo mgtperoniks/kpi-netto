@@ -4,26 +4,27 @@
 
 @section('content')
 
-    <div class="flex items-center justify-between mb-6">
-        <div>
-            <h1 class="text-2xl font-bold text-gray-800">Laporan HR</h1>
-            <p class="text-gray-500">Monitoring anomali, issue harian, dan tindak lanjut perbaikan.</p>
+    <div class="w-full" style="width: 100%; max-width: none;">
+        <div class="flex items-center justify-between mb-6">
+            <div>
+                <h1 class="text-2xl font-bold text-gray-800">Laporan HR</h1>
+                <p class="text-gray-500">Monitoring anomali, issue harian, dan tindak lanjut perbaikan.</p>
+            </div>
+            @if(auth()->user()->canManageHrReports())
+                <a href="{{ route('hr_report.create') }}" target="_blank"
+                    class="inline-flex items-center gap-2 px-4 py-2 !bg-blue-600 text-white rounded-lg hover:!bg-blue-700 transition-colors shadow-lg shadow-blue-500/30 font-bold">
+                    <span class="material-icons-round text-sm">add</span>
+                    Laporan Baru
+                </a>
+            @endif
         </div>
-        @if(auth()->user()->canManageHrReports())
-            <a href="{{ route('hr_report.create') }}" target="_blank"
-                class="inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors shadow-lg shadow-emerald-500/30 font-bold">
-                <span class="material-icons-round text-sm">add</span>
-                Laporan Baru
-            </a>
-        @endif
-    </div>
 
     <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-8 gap-4 bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
         <div class="w-full md:w-1/3">
             <form action="{{ route('hr_report.index') }}" method="GET" class="relative group">
                 <input type="text" name="q" value="{{ $search }}" placeholder="Cari No. Laporan, Judul..." 
-                    class="w-full pl-10 pr-4 py-2 bg-gray-50 border-gray-200 rounded-xl text-xs font-bold text-gray-600 focus:ring-emerald-500 transition-all">
-                <span class="material-icons-round absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-emerald-500 transition-colors text-sm">search</span>
+                    class="w-full pl-10 pr-4 py-2 bg-gray-50 border-gray-200 rounded-xl text-xs font-bold text-gray-600 focus:ring-blue-500 transition-all">
+                <span class="material-icons-round absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-blue-500 transition-colors text-sm">search</span>
                 <button type="submit" class="hidden">Cari</button>
             </form>
         </div>
@@ -34,7 +35,7 @@
                 <span class="text-[10px] font-black text-gray-400 uppercase tracking-widest">Not Started: <span class="text-gray-900">{{ $counts['not_started'] }}</span></span>
             </div>
             <div class="flex items-center gap-2">
-                <div class="w-2 h-2 bg-emerald-500 rounded-full"></div>
+                <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
                 <span class="text-[10px] font-black text-gray-400 uppercase tracking-widest">In Progress: <span class="text-gray-900">{{ $counts['in_progress'] }}</span></span>
             </div>
             <div class="flex items-center gap-2">
@@ -46,11 +47,15 @@
 
     @if($reports->isEmpty())
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-10 text-center">
-            <div class="w-16 h-16 bg-emerald-50 text-emerald-400 rounded-full flex items-center justify-center mx-auto mb-4">
+            <div class="w-16 h-16 bg-blue-50 text-blue-400 rounded-full flex items-center justify-center mx-auto mb-4">
                 <span class="material-icons-round text-3xl">assignment_late</span>
             </div>
             <h3 class="text-lg font-bold text-gray-900">Belum ada laporan issue</h3>
-            <p class="text-gray-500 mt-1 max-w-sm mx-auto">Klik tombol "Laporan Baru" untuk mendokumentasikan anomali atau issue yang ditemukan.</p>
+            @if(auth()->user()->canManageHrReports())
+                <p class="text-gray-500 mt-1 max-w-sm mx-auto">Klik tombol "Laporan Baru" untuk mendokumentasikan anomali atau issue yang ditemukan.</p>
+            @else
+                <p class="text-gray-500 mt-1 max-w-sm mx-auto">Belum ada data laporan HR yang tersedia untuk saat ini.</p>
+            @endif
         </div>
     @else
         <div class="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm">
@@ -59,12 +64,12 @@
                     <thead>
                         @php
                             function sortLink($label, $column, $currentSort, $currentDir) {
-                                 $newDir = ($currentSort === $column && $currentDir === 'asc') ? 'desc' : 'asc';
+                                $newDir = ($currentSort === $column && $currentDir === 'asc') ? 'desc' : 'asc';
                                 $icon = $currentSort === $column ? ($currentDir === 'asc' ? 'expand_less' : 'expand_more') : 'unfold_more';
-                                $isActive = $currentSort === $column ? 'text-emerald-600' : 'text-gray-400';
+                                $isActive = $currentSort === $column ? 'text-blue-600' : 'text-gray-400';
                                 
                                 return '<a href="'.route('hr_report.index', array_merge(request()->query(), ['sort' => $column, 'direction' => $newDir])).'" 
-                                    class="inline-flex items-center gap-1 hover:text-emerald-600 transition-colors '.$isActive.'">
+                                    class="inline-flex items-center gap-1 hover:text-blue-600 transition-colors '.$isActive.'">
                                     <span>'.$label.'</span>
                                     <span class="material-icons-round text-sm">'.$icon.'</span>
                                 </a>';
@@ -91,15 +96,23 @@
                     </thead>
                     <tbody class="divide-y divide-gray-50">
                         @foreach($reports as $report)
-                            <tr class="hover:bg-emerald-50/30 transition-colors group">
+                            <tr class="hover:bg-blue-50/30 transition-colors group">
                                 <td class="px-6 py-4">
-                                    <span class="text-xs font-mono font-bold text-emerald-600 px-2 py-1 bg-emerald-50 rounded-lg">{{ $report->report_number }}</span>
+                                    <span class="text-xs font-mono font-bold text-blue-600 px-2 py-1 bg-blue-50 rounded-lg">{{ $report->report_number }}</span>
                                 </td>
                                 <td class="px-6 py-4">
                                     <div class="text-xs font-bold text-gray-700">
                                         {{ \Carbon\Carbon::parse($report->report_date)->isoFormat('D MMM YYYY') }}
                                     </div>
-                                    <div class="text-[9px] font-bold text-gray-400 uppercase tracking-tight">
+                                    @if($report->target_completion_date)
+                                        @php
+                                            $isOverdue = $report->target_completion_date->isPast() && $report->status !== 'Closed';
+                                        @endphp
+                                        <div class="text-[9px] font-bold {{ $isOverdue ? 'text-red-500' : 'text-blue-500' }} uppercase tracking-tight mt-0.5">
+                                            {{ $report->target_completion_date->isoFormat('D MMM YYYY') }}
+                                        </div>
+                                    @endif
+                                    <div class="text-[9px] font-bold text-gray-400 uppercase tracking-tight mt-0.5">
                                         {{ $report->creator->name ?? 'System' }}
                                     </div>
                                 </td>
@@ -109,39 +122,55 @@
                                     </span>
                                 </td>
                                 <td class="px-6 py-4">
-                                    <div class="text-sm font-bold text-gray-800 line-clamp-1 group-hover:text-emerald-600 transition-colors">{{ $report->title }}</div>
-                                    <div class="text-[10px] font-medium text-gray-400 line-clamp-1 mt-0.5">{{ $report->description }}</div>
+                                    <div class="text-sm font-bold text-gray-800 line-clamp-1 group-hover:text-blue-600 transition-colors mb-1">
+                                        <a href="{{ route('hr_report.show', $report->id) }}" class="hover:underline">{{ $report->title }}</a>
+                                    </div>
+                                    <div class="text-[10px] font-medium text-gray-400 line-clamp-1 mb-1">{{ $report->description }}</div>
+                                    @if($report->operator_name)
+                                        <div class="text-[9px] font-black text-blue-500 uppercase tracking-tight flex items-center gap-1">
+                                            <span class="material-icons-round text-[11px]">person</span>
+                                            {{ $report->operator_name }}
+                                        </div>
+                                    @endif
                                 </td>
                                 <td class="px-6 py-4 text-center">
-                                    @php
-                                        $statusClasses = [
-                                            'Open' => 'bg-red-50 text-red-600 border-red-100',
-                                            'Investigating' => 'bg-orange-50 text-orange-600 border-orange-100',
-                                            'Action Plan' => 'bg-emerald-50 text-emerald-600 border-emerald-100',
-                                            'Monitoring' => 'bg-purple-50 text-purple-600 border-purple-100',
-                                            'Closed' => 'bg-green-50 text-green-600 border-green-100'
-                                        ];
-                                        $class = $statusClasses[$report->status] ?? 'bg-gray-50 text-gray-600 border-gray-100';
-                                    @endphp
-                                    <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[9px] font-black border {{ $class }} uppercase tracking-widest">
-                                        {{ $report->status }}
-                                    </span>
+                                    <div class="flex flex-col items-center gap-1">
+                                        @php
+                                            $statusClasses = [
+                                                'Open' => 'bg-red-50 text-red-600 border-red-100',
+                                                'Investigating' => 'bg-orange-50 text-orange-600 border-orange-100',
+                                                'Action Plan' => 'bg-blue-50 text-blue-600 border-blue-100',
+                                                'Monitoring' => 'bg-purple-50 text-purple-600 border-purple-100',
+                                                'Closed' => 'bg-green-50 text-green-600 border-green-100'
+                                            ];
+                                            $class = $statusClasses[$report->status] ?? 'bg-gray-50 text-gray-600 border-gray-100';
+                                            $isOverdue = $report->target_completion_date && $report->target_completion_date->isPast() && $report->status !== 'Closed';
+                                        @endphp
+                                        <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[9px] font-black border {{ $class }} uppercase tracking-widest">
+                                            {{ $report->status }}
+                                        </span>
+                                        @if($isOverdue)
+                                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[8px] font-black bg-red-100 text-red-600 border border-red-200 uppercase tracking-widest animate-pulse">
+                                                TELAT
+                                            </span>
+                                        @endif
+                                    </div>
                                 </td>
                                 <td class="px-6 py-4 text-right">
                                     <div class="flex items-center justify-end gap-1">
                                         @if($report->data_link)
                                             <a href="{{ $report->data_link }}" target="_blank"
-                                                class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-xl transition-all"
+                                                class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all"
                                                 title="Buka Link Data">
                                                 <span class="material-icons-round text-lg">link</span>
                                             </a>
                                         @endif
                                         <a href="{{ route('hr_report.show', $report->id) }}"
-                                            class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-xl transition-all"
+                                            class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all"
                                             title="Detail Laporan">
                                             <span class="material-icons-round text-lg">visibility</span>
                                         </a>
-                                        @if(auth()->user()->canManageHrReports())
+                                        @if(auth()->user()->canManageHrReports() && $report->status !== 'Closed')
                                             <a href="{{ route('hr_report.edit', $report->id) }}"
                                                 class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-amber-600 hover:bg-amber-50 rounded-xl transition-all"
                                                 title="Edit Laporan">
@@ -157,5 +186,5 @@
             </div>
         </div>
     @endif
-
+    </div>
 @endsection
