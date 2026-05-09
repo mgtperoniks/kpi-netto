@@ -843,3 +843,111 @@ mysqldump: [Warning] Using a password on the command line interface can be insec
 [2026-04-30 16:30:05] [SUCCESS]    SINKRONISASI NETTO SELESAI - DATA TERBARU!
 [2026-04-30 16:30:05] [INFO] ============================================
 [2026-04-30 16:30:05] [INFO] 
+[2026-05-02 16:30:02] [INFO] ============================================
+[2026-05-02 16:30:02] [INFO]    PRODUCTION TO LOCAL DB SYNC SCRIPT (NETTO)
+[2026-05-02 16:30:02] [INFO] ============================================
+[2026-05-02 16:30:02] [INFO] 
+[2026-05-02 16:30:02] [INFO] >>> SINKRONISASI DATABASE: kpi_netto
+[2026-05-02 16:30:02] [INFO] Mengekspor kpi_netto dari container masterdatakpi-db di server...
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+[2026-05-02 16:30:03] [INFO] Mendownload prod_kpi_netto_20260502_163002.sql...
+[2026-05-02 16:30:03] [INFO] Menginput data ke MySQL Lokal (Laragon)...
+[2026-05-02 16:30:03] [INFO] Menjalankan import menggunakan CMD redirection...
+[2026-05-02 16:30:06] [SUCCESS] Sinkronisasi kpi_netto SELESAI!
+[2026-05-02 16:30:06] [INFO] Membersihkan file temporary di server...
+[2026-05-02 16:30:06] [INFO] 
+[2026-05-02 16:30:06] [INFO] Membersihkan backup lama di lokal ( > 7 hari)...
+[2026-05-02 16:30:06] [INFO] 
+[2026-05-02 16:30:06] [INFO] ============================================
+[2026-05-02 16:30:06] [SUCCESS]    SINKRONISASI NETTO SELESAI - DATA TERBARU!
+[2026-05-02 16:30:06] [INFO] ============================================
+[2026-05-02 16:30:06] [INFO] 
+[2026-05-04 16:30:04] [INFO] ============================================
+[2026-05-04 16:30:04] [INFO]    PRODUCTION TO LOCAL DB SYNC SCRIPT (NETTO)
+[2026-05-04 16:30:04] [INFO] ============================================
+[2026-05-04 16:30:04] [INFO] 
+[2026-05-04 16:30:04] [INFO] >>> SINKRONISASI DATABASE: kpi_netto
+[2026-05-04 16:30:04] [INFO] Mengekspor kpi_netto dari container masterdatakpi-db di server...
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+[2026-05-04 16:30:05] [INFO] Mendownload prod_kpi_netto_20260504_163004.sql...
+[2026-05-04 16:30:05] [INFO] Menginput data ke MySQL Lokal (Laragon)...
+[2026-05-04 16:30:05] [INFO] Menjalankan import menggunakan CMD redirection...
+[2026-05-04 16:30:07] [SUCCESS] Sinkronisasi kpi_netto SELESAI!
+[2026-05-04 16:30:07] [INFO] Membersihkan file temporary di server...
+[2026-05-04 16:30:07] [INFO] 
+[2026-05-04 16:30:07] [INFO] Membersihkan backup lama di lokal ( > 7 hari)...
+[2026-05-04 16:30:08] [INFO] 
+[2026-05-04 16:30:08] [INFO] ============================================
+[2026-05-04 16:30:08] [SUCCESS]    SINKRONISASI NETTO SELESAI - DATA TERBARU!
+[2026-05-04 16:30:08] [INFO] ============================================
+[2026-05-04 16:30:08] [INFO] 
+[2026-05-05 16:30:02] [INFO] ============================================
+[2026-05-05 16:30:02] [INFO]    PRODUCTION TO LOCAL DB SYNC SCRIPT (NETTO)
+[2026-05-05 16:30:02] [INFO] ============================================
+[2026-05-05 16:30:02] [INFO] 
+[2026-05-05 16:30:02] [INFO] >>> SINKRONISASI DATABASE: kpi_netto
+[2026-05-05 16:30:02] [INFO] Mengekspor kpi_netto dari container masterdatakpi-db di server...
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+[2026-05-05 16:30:03] [INFO] Mendownload prod_kpi_netto_20260505_163002.sql...
+[2026-05-05 16:30:04] [INFO] Menginput data ke MySQL Lokal (Laragon)...
+[2026-05-05 16:30:04] [INFO] Menjalankan import menggunakan CMD redirection...
+[2026-05-05 16:30:05] [SUCCESS] Sinkronisasi kpi_netto SELESAI!
+[2026-05-05 16:30:05] [INFO] Membersihkan file temporary di server...
+[2026-05-05 16:30:06] [INFO] 
+[2026-05-05 16:30:06] [INFO] Membersihkan backup lama di lokal ( > 7 hari)...
+[2026-05-05 16:30:06] [INFO] 
+[2026-05-05 16:30:06] [INFO] ============================================
+[2026-05-05 16:30:06] [SUCCESS]    SINKRONISASI NETTO SELESAI - DATA TERBARU!
+[2026-05-05 16:30:06] [INFO] ============================================
+[2026-05-05 16:30:06] [INFO] 
+[2026-05-06 16:30:05] [INFO] ============================================
+[2026-05-06 16:30:05] [INFO]    PRODUCTION TO LOCAL DB SYNC SCRIPT (NETTO)
+[2026-05-06 16:30:05] [INFO] ============================================
+[2026-05-06 16:30:05] [INFO] 
+[2026-05-06 16:30:05] [INFO] >>> SINKRONISASI DATABASE: kpi_netto
+[2026-05-06 16:30:05] [INFO] Mengekspor kpi_netto dari container masterdatakpi-db di server...
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+[2026-05-06 16:30:06] [INFO] Mendownload prod_kpi_netto_20260506_163005.sql...
+[2026-05-06 16:30:07] [INFO] Menginput data ke MySQL Lokal (Laragon)...
+[2026-05-06 16:30:07] [INFO] Menjalankan import menggunakan CMD redirection...
+[2026-05-06 16:30:12] [SUCCESS] Sinkronisasi kpi_netto SELESAI!
+[2026-05-06 16:30:12] [INFO] Membersihkan file temporary di server...
+[2026-05-06 16:30:13] [INFO] 
+[2026-05-06 16:30:13] [INFO] Membersihkan backup lama di lokal ( > 7 hari)...
+[2026-05-06 16:30:13] [INFO] 
+[2026-05-06 16:30:13] [INFO] ============================================
+[2026-05-06 16:30:13] [SUCCESS]    SINKRONISASI NETTO SELESAI - DATA TERBARU!
+[2026-05-06 16:30:13] [INFO] ============================================
+[2026-05-06 16:30:13] [INFO] 
+[2026-05-07 16:30:02] [INFO] ============================================
+[2026-05-07 16:30:02] [INFO]    PRODUCTION TO LOCAL DB SYNC SCRIPT (NETTO)
+[2026-05-07 16:30:02] [INFO] ============================================
+[2026-05-07 16:30:02] [INFO] 
+[2026-05-07 16:30:02] [INFO] >>> SINKRONISASI DATABASE: kpi_netto
+[2026-05-07 16:30:02] [INFO] Mengekspor kpi_netto dari container masterdatakpi-db di server...
+mysqldump: [Warning] Using a password on the command line interface can be insecure.
+[2026-05-07 16:30:03] [INFO] Mendownload prod_kpi_netto_20260507_163002.sql...
+[2026-05-07 16:30:04] [INFO] Menginput data ke MySQL Lokal (Laragon)...
+[2026-05-07 16:30:04] [INFO] Menjalankan import menggunakan CMD redirection...
+[2026-05-07 16:30:06] [SUCCESS] Sinkronisasi kpi_netto SELESAI!
+[2026-05-07 16:30:06] [INFO] Membersihkan file temporary di server...
+[2026-05-07 16:30:06] [INFO] 
+[2026-05-07 16:30:06] [INFO] Membersihkan backup lama di lokal ( > 7 hari)...
+[2026-05-07 16:30:06] [INFO] 
+[2026-05-07 16:30:06] [INFO] ============================================
+[2026-05-07 16:30:06] [SUCCESS]    SINKRONISASI NETTO SELESAI - DATA TERBARU!
+[2026-05-07 16:30:06] [INFO] ============================================
+[2026-05-07 16:30:06] [INFO] 
+[2026-05-08 16:30:02] [INFO] ============================================
+[2026-05-08 16:30:02] [INFO]    PRODUCTION TO LOCAL DB SYNC SCRIPT (NETTO)
+[2026-05-08 16:30:02] [INFO] ============================================
+[2026-05-08 16:30:02] [INFO] 
+[2026-05-08 16:30:02] [INFO] >>> SINKRONISASI DATABASE: kpi_netto
+[2026-05-08 16:30:02] [INFO] Mengekspor kpi_netto dari container masterdatakpi-db di server...
+ssh: connect to host 10.88.8.46 port 22: Connection timed out
+[2026-05-08 16:30:23] [ERROR] Gagal ekspor kpi_netto. Pastikan SSH key terpasang dan sudo tidak butuh password.
+[2026-05-08 16:30:23] [INFO] 
+[2026-05-08 16:30:23] [INFO] Membersihkan backup lama di lokal ( > 7 hari)...
+[2026-05-08 16:30:23] [INFO] 
+[2026-05-08 16:30:23] [INFO] ============================================
+[2026-05-08 16:30:23] [ERROR]    SINKRONISASI NETTO SELESAI DENGAN BEBERAPA KEGAGALAN.
