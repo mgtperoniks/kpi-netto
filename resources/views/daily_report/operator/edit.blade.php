@@ -37,14 +37,7 @@
                     <span class="text-xs text-slate-400 ml-auto">Tidak dapat diubah</span>
                 </div>
 
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <div class="space-y-1.5">
-                        <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Tanggal</label>
-                        <div
-                            class="w-full bg-slate-100 border-transparent rounded-xl text-sm p-3 font-medium text-slate-500">
-                            {{ \Carbon\Carbon::parse($log->production_date)->format('d/m/Y') }}
-                        </div>
-                    </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div class="space-y-1.5">
                         <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Operator</label>
                         <div
@@ -110,8 +103,13 @@
                     <h2 class="font-bold text-lg text-slate-700">Data yang Dapat Diedit</h2>
                 </div>
 
-                {{-- Row 1: Shift, Waktu Mulai, Waktu Selesai --}}
-                <div class="grid grid-cols-3 gap-4 mb-4">
+                {{-- Row 1: Tanggal, Shift, Waktu Mulai, Waktu Selesai --}}
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+                    <div class="space-y-1.5">
+                        <label class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Tanggal</label>
+                        <input type="date" name="production_date" value="{{ $log->production_date }}" required
+                            class="w-full bg-slate-50 border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm p-3 font-medium text-slate-700">
+                    </div>
                     <div class="space-y-1.5">
                         <label class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Shift</label>
                         <select name="shift"
@@ -137,14 +135,14 @@
                 </div>
 
                 {{-- Row 2: Cycle Time, Target (Auto), Hasil --}}
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                    <div class="space-y-1.5">
+                <div class="grid gap-4 mb-4" :class="isNetto ? 'grid-cols-1 md:grid-cols-2' : 'grid-cols-1 md:grid-cols-3'">
+                    <div x-show="!isNetto" class="space-y-1.5">
                         <label class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Cycle Time
                             (Manual)</label>
                         <div class="grid grid-cols-2 gap-2">
                             <div class="flex items-center">
                                 <input type="number" name="cycle_time_minutes" x-model="cycleTimeMinutes"
-                                    @input="calculateTarget" required min="0" value="{{ $cycleMinutes }}"
+                                    @input="calculateTarget" :required="!isNetto" min="0" value="{{ $cycleMinutes }}"
                                     class="w-full bg-white border-slate-200 rounded-l-xl border-r-0 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm p-3 font-medium text-slate-700"
                                     placeholder="0">
                                 <span
@@ -154,7 +152,7 @@
                             </div>
                             <div class="flex items-center">
                                 <input type="number" name="cycle_time_seconds" x-model="cycleTimeSeconds"
-                                    @input="calculateTarget" required min="0" max="59" value="{{ $cycleSeconds }}"
+                                    @input="calculateTarget" :required="!isNetto" min="0" max="59" value="{{ $cycleSeconds }}"
                                     class="w-full bg-white border-slate-200 rounded-l-xl border-r-0 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm p-3 font-medium text-slate-700"
                                     placeholder="0">
                                 <span
@@ -169,7 +167,7 @@
                         <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Target (Auto)</label>
                         <input type="number" readonly x-model="targetQty"
                             class="w-full bg-slate-100 border-transparent rounded-xl text-center font-bold text-slate-600 text-lg p-3 cursor-not-allowed">
-                        <p class="text-[10px] text-center text-slate-400">Berdasarkan Cycle Time</p>
+                        <p class="text-[10px] text-center text-slate-400" x-text="isNetto ? 'Berdasarkan Jam Kerja & Target Proses' : 'Berdasarkan Cycle Time'"></p>
                     </div>
 
                     <div class="space-y-1.5">
@@ -255,6 +253,8 @@
     <script>
         function editForm() {
             return {
+                isNetto: {{ $isNetto ? 'true' : 'false' }},
+                processTargetQty: {{ $processTargetQty ?? 0 }},
                 timeStart: '{{ \Carbon\Carbon::parse($log->time_start)->format("H:i") }}',
                 timeEnd: '{{ \Carbon\Carbon::parse($log->time_end)->format("H:i") }}',
                 cycleTimeMinutes: {{ $cycleMinutes }},
@@ -264,12 +264,30 @@
                 achievement: {{ $log->achievement_percent }},
 
                 calculateTarget() {
+                    if (this.isNetto) {
+                        if (!this.timeStart || !this.timeEnd || !this.processTargetQty) {
+                            this.targetQty = 0;
+                            this.calculateAchievement();
+                            return;
+                        }
+                        const start = this.parseTime(this.timeStart);
+                        const end = this.parseTime(this.timeEnd);
+                        let diffSeconds = (end - start) * 60;
+                        if (diffSeconds < 0) diffSeconds += 24 * 60 * 60; // Handle cross-midnight
+                        
+                        const fullShiftSeconds = 7 * 3600; // 25200
+                        this.targetQty = Math.floor((this.processTargetQty / fullShiftSeconds) * diffSeconds);
+                        this.calculateAchievement();
+                        return;
+                    }
+
                     const mins = parseInt(this.cycleTimeMinutes) || 0;
                     const secs = parseInt(this.cycleTimeSeconds) || 0;
                     const totalCycleTimeSec = (mins * 60) + secs;
 
                     if (!this.timeStart || !this.timeEnd || totalCycleTimeSec <= 0) {
                         this.targetQty = 0;
+                        this.calculateAchievement();
                         return;
                     }
 
@@ -289,7 +307,7 @@
                         return;
                     }
                     const actual = parseInt(this.actualQty) || 0;
-                    this.achievement = ((actual / this.targetQty) * 100).toFixed(1);
+                    this.achievement = ((actual / this.targetQty) * 100).toFixed(2);
                 },
 
                 parseTime(t) {
@@ -309,7 +327,7 @@
                         confirmButtonColor: '#059669',
                         cancelButtonColor: '#dc2626',
                         reverseButtons: true,
-                    }).then((result) => {
+                     }).then((result) => {
                         if (result.isConfirmed) {
                             document.getElementById('edit-form').submit();
                         }

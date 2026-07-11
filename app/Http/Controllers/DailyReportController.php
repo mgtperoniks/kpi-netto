@@ -192,8 +192,29 @@ class DailyReportController extends Controller
             abort(403, 'Data sudah dikunci. Tidak dapat mengedit.');
         }
 
+        // Detect if Netto department
+        $isNetto = str_starts_with($log->department_code, '403.');
+        $processTargetQty = 0;
+
+        if ($isNetto) {
+            $targetMonth = date('n', strtotime($log->production_date));
+            $targetYear = date('Y', strtotime($log->production_date));
+            $pt = \App\Models\ProcessTarget::where('department_code', $log->department_code)
+                ->where('month', $targetMonth)
+                ->where('year', $targetYear)
+                ->get()
+                ->first(function ($item) use ($log) {
+                    return strtolower(trim($item->process_name)) === strtolower(trim($log->item_code));
+                });
+            if ($pt) {
+                $processTargetQty = $pt->target_qty;
+            }
+        }
+
         return view('daily_report.operator.edit', [
             'log' => $log,
+            'isNetto' => $isNetto,
+            'processTargetQty' => $processTargetQty,
         ]);
     }
 
@@ -210,20 +231,45 @@ class DailyReportController extends Controller
 
         $log = ProductionLog::findOrFail($id);
 
+        // Validate ORIGINAL date lock status
         if (\App\Services\DateLockService::isLocked($log->production_date)) {
             abort(403, 'Data sudah dikunci. Tidak dapat mengedit.');
         }
 
-        $validated = $request->validate([
-            'shift' => 'required|string|max:10',
-            'time_start' => 'required|date_format:H:i',
-            'time_end' => 'required|date_format:H:i',
-            'cycle_time_minutes' => 'required|integer|min:0',
-            'cycle_time_seconds' => 'required|integer|min:0|max:59',
-            'actual_qty' => 'required|integer|min:0',
-            'remark' => 'nullable|string|max:50',
-            'note' => 'nullable|string|max:255',
-        ]);
+        // Determine if Netto department
+        $isNetto = str_starts_with($log->department_code, '403.');
+
+        if ($isNetto) {
+            $validated = $request->validate([
+                'production_date' => 'required|date',
+                'shift' => 'required|string|max:10',
+                'time_start' => 'required|date_format:H:i',
+                'time_end' => 'required|date_format:H:i',
+                'actual_qty' => 'required|integer|min:0',
+                'remark' => 'nullable|string|max:50',
+                'note' => 'nullable|string|max:255',
+            ]);
+        } else {
+            $validated = $request->validate([
+                'production_date' => 'required|date',
+                'shift' => 'required|string|max:10',
+                'time_start' => 'required|date_format:H:i',
+                'time_end' => 'required|date_format:H:i',
+                'cycle_time_minutes' => 'required|integer|min:0',
+                'cycle_time_seconds' => 'required|integer|min:0|max:59',
+                'actual_qty' => 'required|integer|min:0',
+                'remark' => 'nullable|string|max:50',
+                'note' => 'nullable|string|max:255',
+            ]);
+        }
+
+        // Validate TARGET date lock status
+        if (\App\Services\DateLockService::isLocked($validated['production_date'])) {
+            return back()->withErrors(['production_date' => 'Tanggal target sudah dikunci.'])->withInput();
+        }
+
+        $oldDate = $log->production_date;
+        $newDate = $validated['production_date'];
 
         // Re-calculate work hours
         $startSeconds = strtotime($validated['time_start']);
@@ -240,23 +286,46 @@ class DailyReportController extends Controller
         }
 
         $workHours = round($workSeconds / 3600, 2);
+        $actualQty = (int) $validated['actual_qty'];
 
-        // Re-calculate cycle time
-        $cycleTimeSec = ($validated['cycle_time_minutes'] * 60) + $validated['cycle_time_seconds'];
+        if ($isNetto) {
+            // Netto Engine: Process Target based calculation
+            $targetMonth = date('n', strtotime($newDate));
+            $targetYear = date('Y', strtotime($newDate));
+            
+            $processTarget = \App\Models\ProcessTarget::where('department_code', $log->department_code)
+                ->where('month', $targetMonth)
+                ->where('year', $targetYear)
+                ->get()
+                ->first(function ($pt) use ($log) {
+                    return strtolower(trim($pt->process_name)) === strtolower(trim($log->item_code));
+                });
 
-        if ($cycleTimeSec <= 0) {
-            return back()->withErrors(['cycle_time_seconds' => 'Total Cycle Time tidak boleh 0 detik.'])->withInput();
+            if ($processTarget) {
+                $fullShiftSeconds = 7 * 3600; // 25200 seconds
+                $targetQty = (int) floor(($processTarget->target_qty / $fullShiftSeconds) * $workSeconds);
+            } else {
+                $targetQty = (int) $log->target_qty; // safe fallback
+            }
+            $cycleTimeSec = 0;
+        } else {
+            // Bubut Engine: Cycle Time based calculation
+            $cycleTimeSec = ($validated['cycle_time_minutes'] * 60) + $validated['cycle_time_seconds'];
+
+            if ($cycleTimeSec <= 0) {
+                return back()->withErrors(['cycle_time_seconds' => 'Total Cycle Time tidak boleh 0 detik.'])->withInput();
+            }
+
+            $targetQty = (int) intdiv($workSeconds, $cycleTimeSec);
         }
 
-        // Re-calculate target & achievement
-        $targetQty = intdiv($workSeconds, $cycleTimeSec);
-        $actualQty = (int) $validated['actual_qty'];
         $achievementPercent = $targetQty > 0
             ? round(($actualQty / $targetQty) * 100, 2)
             : 0;
 
         // Update record
         $log->update([
+            'production_date' => $newDate,
             'shift' => $validated['shift'],
             'time_start' => $validated['time_start'],
             'time_end' => $validated['time_end'],
@@ -269,9 +338,15 @@ class DailyReportController extends Controller
             'note' => $validated['note'] ?? null,
         ]);
 
-        // Regenerate KPI
-        \App\Services\DailyKpiService::generateOperatorDaily($log->production_date);
-        \App\Services\DailyKpiService::generateMachineDaily($log->production_date);
+        // Regenerate KPI for new date
+        \App\Services\DailyKpiService::generateOperatorDaily($newDate);
+        \App\Services\DailyKpiService::generateMachineDaily($newDate);
+
+        // Regenerate KPI for old date if changed
+        if ($oldDate !== $newDate) {
+            \App\Services\DailyKpiService::generateOperatorDaily($oldDate);
+            \App\Services\DailyKpiService::generateMachineDaily($oldDate);
+        }
 
         return redirect()
             ->route('daily_report.operator.show', $log->production_date)
